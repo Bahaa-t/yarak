@@ -1,258 +1,475 @@
+
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klick auf mich</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ULTRA Anti-Bot Test</title>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1d1b3a, #4d1f5c, #ff7a59);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+overflow:hidden;
+font-family:Arial,sans-serif;
+background:black;
+color:white;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
 
-    .screen {
-      width: min(90vw, 700px);
-      padding: 32px;
-    }
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#ff0055 0%,transparent 30%),
+radial-gradient(circle at bottom,#7c3aed 0%,transparent 35%);
+opacity:.35;
+animation:bgmove 8s linear infinite alternate;
+}
 
-    h1 {
-      font-size: clamp(32px, 7vw, 68px);
-      margin: 0 0 12px;
-    }
+@keyframes bgmove{
+from{transform:scale(1)}
+to{transform:scale(1.1)}
+}
 
-    p {
-      font-size: 20px;
-      opacity: 0.9;
-    }
+.container{
+position:relative;
+z-index:2;
+width:min(90vw,900px);
+}
 
-    #trollButton {
-      position: absolute;
-      left: 50%;
-      top: 60%;
-      transform: translate(-50%, -50%);
-      padding: 18px 32px;
-      border: none;
-      border-radius: 999px;
-      background: white;
-      color: #2b1640;
-      font-size: 22px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-      transition: left 0.16s ease, top 0.16s ease, transform 0.12s ease;
-    }
+h1{
+font-size:clamp(38px,7vw,88px);
+margin-bottom:10px;
+}
 
-    #trollButton:hover {
-      transform: translate(-50%, -50%) rotate(-4deg) scale(1.05);
-    }
+p{
+font-size:22px;
+opacity:.85;
+}
 
-    .popup {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(8px);
-      z-index: 10;
-    }
+#btn{
+position:absolute;
+left:50%;
+top:65%;
+transform:translate(-50%,-50%);
+padding:20px 34px;
+border:none;
+border-radius:999px;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
+background:white;
+color:black;
+transition:.12s;
+z-index:5;
+}
 
-    .card {
-      width: min(92vw, 520px);
-      padding: 28px;
-      border-radius: 28px;
-      background: white;
-      color: #241136;
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-      animation: pop 0.35s ease;
-    }
+#btn:hover{
+transform:translate(-50%,-50%) scale(1.1) rotate(-6deg);
+}
 
-    @keyframes pop {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+.popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.82);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:20;
+padding:20px;
+}
 
-    .card h2 {
-      margin-top: 0;
-      font-size: 30px;
-    }
+.card{
+width:min(95vw,650px);
+background:white;
+color:black;
+padding:30px;
+border-radius:30px;
+box-shadow:0 0 80px rgba(255,0,80,.5);
+animation:pop .25s ease;
+}
 
-    .card p {
-      color: #4d3a5c;
-      font-size: 18px;
-    }
+@keyframes pop{
+from{transform:scale(.7);opacity:0}
+to{transform:scale(1);opacity:1}
+}
 
-    .choices {
-      display: grid;
-      gap: 12px;
-      margin-top: 20px;
-    }
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:20px;
+}
 
-    .choices button, #nextButton {
-      border: none;
-      border-radius: 18px;
-      padding: 14px 18px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      background: #7c3aed;
-      color: white;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
+.tile{
+aspect-ratio:1;
+border-radius:18px;
+background:#ddd;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:42px;
+cursor:pointer;
+transition:.15s;
+user-select:none;
+}
 
-    .choices button:hover, #nextButton:hover {
-      transform: scale(1.04);
-    }
+.tile:hover{
+transform:scale(1.05);
+}
 
-    #answerText {
-      min-height: 28px;
-      margin-top: 18px;
-      font-weight: bold;
-      color: #7c3aed;
-    }
+.tile.selected{
+background:#7c3aed;
+color:white;
+transform:scale(.92);
+}
 
-    #nextButton {
-      margin-top: 16px;
-      display: none;
-      background: #ff5c7a;
-    }
-  </style>
+button.action{
+margin-top:20px;
+padding:15px 22px;
+border:none;
+border-radius:16px;
+background:#ff0055;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+#message{
+margin-top:16px;
+font-weight:bold;
+font-size:18px;
+min-height:30px;
+color:#7c3aed;
+}
+
+#finalHack{
+position:fixed;
+inset:0;
+background:black;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+font-family:monospace;
+}
+
+.glitch{
+font-size:clamp(30px,6vw,80px);
+color:#ff0033;
+animation:glitch .08s infinite alternate;
+}
+
+@keyframes glitch{
+from{transform:translateX(-3px)}
+to{transform:translateX(3px)}
+}
+
+.scan{
+position:fixed;
+inset:0;
+background:repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,.03),
+rgba(255,255,255,.03) 2px,
+transparent 2px,
+transparent 4px
+);
+pointer-events:none;
+z-index:9999;
+}
+
+.fakecursor{
+position:fixed;
+width:20px;
+height:20px;
+border:2px solid white;
+border-radius:50%;
+pointer-events:none;
+animation:explode .7s ease forwards;
+z-index:999;
+}
+
+@keyframes explode{
+to{
+transform:scale(4);
+opacity:0;
+}
+}
+
+input{
+width:100%;
+padding:16px;
+font-size:22px;
+border-radius:16px;
+border:2px solid #ccc;
+margin-top:16px;
+text-align:center;
+}
+
+.shake{
+animation:shake .15s linear 4;
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0)}
+25%{transform:translateX(-10px)}
+75%{transform:translateX(10px)}
+}
+</style>
 </head>
+
 <body>
-  <main class="screen">
-    <h1>Klick auf mich 😇</h1>
-    <p>Keine Sorge, ich bin ein ganz normaler Button. Wirklich.</p>
-  </main>
 
-  <button id="trollButton">Hier klicken</button>
+<div class="scan"></div>
 
-  <section class="popup" id="popup">
-    <div class="card" id="card">
-      <h2 id="questionTitle">Ja, ich weiß…</h2>
-      <p id="questionText">Du hast nie getroffen. Nicht einmal knapp. Aber hey, ich fühle dich.</p>
+<div class="container">
+<h1>ANTI-BOT TEST</h1>
+<p>Beweise, dass du kein Bot bist.</p>
+</div>
 
-      <div class="choices" id="choices"></div>
-      <p id="answerText"></p>
-      <button id="nextButton">Weiter</button>
-    </div>
-  </section>
+<button id="btn">Ich bin kein Bot</button>
 
-  <script>
-    const btn = document.getElementById("trollButton");
-    const popup = document.getElementById("popup");
-    const questionTitle = document.getElementById("questionTitle");
-    const questionText = document.getElementById("questionText");
-    const choices = document.getElementById("choices");
-    const answerText = document.getElementById("answerText");
-    const nextButton = document.getElementById("nextButton");
+<div class="popup" id="popup">
+<div class="card" id="card">
+<h2 id="title">Captcha Prüfung</h2>
+<p id="desc">Klicke alle Bilder mit echten Menschen an.</p>
 
-    let escapes = 0;
-    let questionIndex = -1;
+<div id="content"></div>
 
-    const questions = [
-      {
-        title: "Frage 1: Wie fühlst du dich gerade?",
-        text: "Nach all diesen verfehlten Klicks interessiert mich das wirklich. Ein bisschen.",
-        answers: [
-          { label: "Stabil, aber innerlich kaputt", reply: "Verständlich. Der Button hat dich emotional gedribbelt." },
-          { label: "Ich habe alles unter Kontrolle", reply: "Natürlich. Deswegen bist du auch hier gelandet." },
-          { label: "Ich fühle den Button später", reply: "Der Button hat Angst. Aber nur minimal." }
-        ]
-      },
-      {
-        title: "Frage 2: Was ist dein nächster Move?",
-        text: "Wähle weise. Oder halt einfach irgendwas.",
-        answers: [
-          { label: "Nochmal versuchen", reply: "Mutig. Dumm, aber mutig." },
-          { label: "Ich rufe Verstärkung", reply: "Plot Twist: Die Verstärkung trifft auch nicht." },
-          { label: "Ich akzeptiere meine Niederlage", reply: "Charakterentwicklung. Stark." }
-        ]
-      },
-      {
-        title: "Ende 😈",
-        text: "Du hast den Test bestanden. Also fast. Eigentlich nicht. Aber du warst dabei.",
-        answers: [
-          { label: "Okay, ich nehme das", reply: "Sehr erwachsen von dir." },
-          { label: "Ich will Revanche", reply: "Lade die Seite neu. Der Button wartet schon." }
-        ]
-      }
-    ];
+<div id="message"></div>
 
-    function moveButton() {
-      escapes++;
+<button class="action" id="next">Weiter</button>
+</div>
+</div>
 
-      const padding = 20;
-      const maxX = window.innerWidth - btn.offsetWidth - padding;
-      const maxY = window.innerHeight - btn.offsetHeight - padding;
-      const x = Math.random() * maxX + padding / 2;
-      const y = Math.random() * maxY + padding / 2;
+<div id="finalHack">
+<div class="glitch">BOTS GEHACKT</div>
+<p>System kompromittiert...</p>
+<p>IP wird an NASA geschickt...</p>
+<p>Bitte nicht Browser schließen...</p>
+</div>
 
-      btn.style.left = `${x}px`;
-      btn.style.top = `${y}px`;
+<script>
 
-      if (escapes === 8) {
-        showIntroPopup();
-      }
-    }
+const btn=document.getElementById("btn");
+const popup=document.getElementById("popup");
+const content=document.getElementById("content");
+const message=document.getElementById("message");
+const next=document.getElementById("next");
+const title=document.getElementById("title");
+const desc=document.getElementById("desc");
+const card=document.getElementById("card");
+const finalHack=document.getElementById("finalHack");
 
-    function showIntroPopup() {
-      popup.style.display = "flex";
-      btn.style.display = "none";
-      questionIndex = -1;
-      questionTitle.textContent = "Ja, ich weiß…";
-      questionText.textContent = "Du hast nie getroffen. Nicht einmal knapp. Aber hey, ich fühle dich.";
-      choices.innerHTML = "";
-      answerText.textContent = "";
-      nextButton.style.display = "inline-block";
-      nextButton.textContent = "Weiter";
-    }
+let stage=-1;
+let escapes=0;
 
-    function showQuestion() {
-      questionIndex++;
-      const q = questions[questionIndex];
+const stages=[
+{
+type:"captcha",
+title:"Google Ultra Secure Captcha",
+desc:"Klicke alle echten Menschen an.",
+tiles:["🤖","🧍","🤖","🧍","🤖","🤖","🧍","🤖","🤖"]
+},
+{
+type:"captcha",
+title:"Sicherheitsprüfung 2",
+desc:"Klicke alle Busse an.",
+tiles:["🚌","🚗","🚲","🚌","🚓","🚗","🚕","🚌","🚑"]
+},
+{
+type:"age"
+},
+{
+type:"choice"
+}
+];
 
-      questionTitle.textContent = q.title;
-      questionText.textContent = q.text;
-      choices.innerHTML = "";
-      answerText.textContent = "";
-      nextButton.style.display = "none";
+function moveButton(){
+escapes++;
 
-      q.answers.forEach(answer => {
-        const choice = document.createElement("button");
-        choice.textContent = answer.label;
-        choice.addEventListener("click", () => {
-          answerText.textContent = answer.reply;
-          nextButton.style.display = "inline-block";
-          nextButton.textContent = questionIndex === questions.length - 1 ? "Nochmal spielen" : "Weiter";
-        });
-        choices.appendChild(choice);
-      });
-    }
+const x=Math.random()*(window.innerWidth-btn.offsetWidth-40);
+const y=Math.random()*(window.innerHeight-btn.offsetHeight-40);
 
-    nextButton.addEventListener("click", () => {
-      if (questionIndex >= questions.length - 1) {
-        location.reload();
-      } else {
-        showQuestion();
-      }
-    });
+btn.style.left=x+"px";
+btn.style.top=y+"px";
 
-    btn.addEventListener("mouseenter", moveButton);
-    btn.addEventListener("touchstart", moveButton);
-    btn.addEventListener("click", showIntroPopup);
-  </script>
+if(escapes>8){
+openPopup();
+}
+}
+
+btn.addEventListener("mouseenter",moveButton);
+btn.addEventListener("click",moveButton);
+
+function fakeClicks(){
+const c=document.createElement("div");
+c.className="fakecursor";
+c.style.left=Math.random()*window.innerWidth+"px";
+c.style.top=Math.random()*window.innerHeight+"px";
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),700);
+}
+
+setInterval(fakeClicks,800);
+
+function openPopup(){
+popup.style.display="flex";
+btn.style.display="none";
+next.style.display="none";
+stage=-1;
+loadStage();
+}
+
+function loadStage(){
+stage++;
+message.textContent="";
+content.innerHTML="";
+next.style.display="none";
+
+const s=stages[stage];
+
+if(s.type==="captcha"){
+title.textContent=s.title;
+desc.textContent=s.desc;
+
+const grid=document.createElement("div");
+grid.className="grid";
+
+s.tiles.forEach(item=>{
+const tile=document.createElement("div");
+tile.className="tile";
+tile.textContent=item;
+
+tile.onclick=()=>{
+tile.classList.toggle("selected");
+};
+
+grid.appendChild(tile);
+});
+
+content.appendChild(grid);
+
+const verify=document.createElement("button");
+verify.className="action";
+verify.textContent="Bestätigen";
+
+verify.onclick=()=>{
+card.classList.add("shake");
+
+setTimeout(()=>card.classList.remove("shake"),700);
+
+message.textContent="Falsch. Verdächtiges Bot-Verhalten erkannt.";
+
+next.style.display="inline-block";
+};
+
+content.appendChild(verify);
+}
+
+if(s.type==="age"){
+title.textContent="Altersprüfung";
+desc.textContent="Gib dein echtes Alter ein. Hinweis: Die richtige Antwort ist 30.";
+
+const input=document.createElement("input");
+input.placeholder="Alter";
+
+const verify=document.createElement("button");
+verify.className="action";
+verify.textContent="Prüfen";
+
+verify.onclick=()=>{
+if(input.value==="30"){
+message.textContent="Korrekt. Du bist anscheinend 30.";
+}else{
+message.textContent="Falsch. Du schätzt dich zu jung.";
+card.classList.add("shake");
+setTimeout(()=>card.classList.remove("shake"),700);
+}
+next.style.display="inline-block";
+};
+
+content.appendChild(input);
+content.appendChild(verify);
+}
+
+if(s.type==="choice"){
+title.textContent="Menschlichkeits-Test";
+desc.textContent="Was würdest du als Mensch tun?";
+
+const answers=[
+["Panik bekommen","Normale Reaktion. Trotzdem Bot."],
+["Browser schließen","Zu spät."],
+["So tun als wäre ich kein Bot","EXTREM verdächtig."]
+];
+
+answers.forEach(a=>{
+const b=document.createElement("button");
+b.className="action";
+b.style.display="block";
+b.style.width="100%";
+b.style.marginTop="12px";
+b.textContent=a[0];
+
+b.onclick=()=>{
+message.textContent=a[1];
+next.style.display="inline-block";
+};
+
+content.appendChild(b);
+});
+
+next.textContent="Endauswertung";
+}
+
+if(stage>=stages.length){
+startHack();
+}
+}
+
+next.onclick=()=>loadStage();
+
+function startHack(){
+popup.style.display="none";
+finalHack.style.display="flex";
+
+let texts=[
+"BOT ERKANNT...",
+"SYSTEM INFIZIERT...",
+"ALLE DATEN WERDEN HOCHGELADEN...",
+"DISCORD TOKEN GEFUNDEN...",
+"MUTTER WIRD KONTAKTIERT...",
+"ZU SPÄT..."
+];
+
+let i=0;
+
+const interval=setInterval(()=>{
+document.querySelector(".glitch").textContent=texts[i%texts.length];
+i++;
+
+if(i>12){
+clearInterval(interval);
+
+setTimeout(()=>{
+alert("Spaß 😈 Du bist offiziell ein Bot.");
+location.reload();
+},2000);
+}
+
+},900);
+}
+
+</script>
+
 </body>
 </html>
