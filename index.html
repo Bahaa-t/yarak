@@ -281,7 +281,7 @@ const y=Math.random()*(window.innerHeight-btn.offsetHeight-40);
 btn.style.left=x+"px";
 btn.style.top=y+"px";
 
-if(escapes>7){
+if(escapes>=5){
 startQuestions();
 }
 }
@@ -302,6 +302,7 @@ setTimeout(()=>c.remove(),600);
 setInterval(fakeClick,900);
 
 function startQuestions(){
+if(popup.style.display==="flex") return;
 btn.style.display="none";
 popup.style.display="flex";
 loadQuestion();
@@ -317,20 +318,29 @@ if(stage===0){
 title.textContent="Bro du hast NIE getroffen 😭";
 desc.textContent="Okay komm rein. Erste Sicherheitsfrage.";
 inputArea.innerHTML='<input id="answer" placeholder="Wie alt bist du?">';
+setTimeout(()=>document.getElementById("answer").focus(),50);
 }
 
 if(stage===1){
 title.textContent="Noch eine Frage";
 desc.textContent="Was ist dein Lieblingsessen?";
 inputArea.innerHTML='<input id="answer" placeholder="Lieblingsessen...">';
+setTimeout(()=>document.getElementById("answer").focus(),50);
 }
 
 if(stage===2){
 title.textContent="Letzte Frage";
 desc.textContent="Lieblingsanime?";
 inputArea.innerHTML='<input id="answer" placeholder="Anime...">';
+setTimeout(()=>document.getElementById("answer").focus(),50);
 }
 }
+
+document.addEventListener("keydown",(e)=>{
+if(e.key==="Enter" && popup.style.display==="flex" && checkBtn.style.display!=="none"){
+checkBtn.click();
+}
+});
 
 checkBtn.onclick=()=>{
 
@@ -359,7 +369,9 @@ reply.textContent="Bro… denk älter.";
 }
 
 else{
-reply.textContent="Hinweis: 30.";
+reply.textContent="Hinweis: 30. Okay, ich lass dich trotzdem weiter.";
+nextBtn.style.display="block";
+checkBtn.style.display="none";
 }
 
 }
@@ -403,7 +415,9 @@ reply.textContent="Bro wirklich?";
 }
 
 else{
-reply.textContent="Hinweis: 🍥🥷🦊🍜";
+reply.textContent="Hinweis: 🍥🥷🦊🍜 Okay, weiter. Das tut weh.";
+nextBtn.style.display="block";
+checkBtn.style.display="none";
 }
 
 }
