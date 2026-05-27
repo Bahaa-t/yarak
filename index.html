@@ -4,138 +4,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anti-Bot Test</title>
+<title>Valorant Aim Trainer 😭</title>
 
 <style>
+
 *{box-sizing:border-box}
 
 body{
 margin:0;
-height:100vh;
 overflow:hidden;
+height:100vh;
 font-family:Arial,sans-serif;
 background:
-radial-gradient(circle at top,#ff0055 0%,transparent 35%),
-radial-gradient(circle at bottom,#7c3aed 0%,transparent 40%),
-#09090f;
+radial-gradient(circle at top,#ff4655 0%,transparent 35%),
+#0f1118;
+color:white;
+cursor:crosshair;
+}
+
+#hud{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:20px;
+font-size:22px;
+font-weight:bold;
+z-index:10;
+}
+
+.box{
+background:rgba(255,255,255,.08);
+padding:12px 20px;
+border-radius:16px;
+backdrop-filter:blur(8px);
+}
+
+#game{
+position:relative;
+width:100%;
+height:100%;
+overflow:hidden;
+}
+
+.target{
+position:absolute;
+width:90px;
+height:90px;
+border-radius:50%;
+background:
+radial-gradient(circle at 30% 30%,white,#ff4655 55%,#4d0d12);
+box-shadow:0 0 40px rgba(255,70,85,.7);
 display:flex;
 justify-content:center;
 align-items:center;
-color:white;
+font-size:34px;
+cursor:pointer;
+user-select:none;
+transition:.08s linear;
+}
+
+.target:hover{
+transform:scale(1.05);
+}
+
+.hit{
+animation:hit .2s ease;
+}
+
+@keyframes hit{
+0%{transform:scale(1)}
+50%{transform:scale(.8)}
+100%{transform:scale(1)}
+}
+
+#overlay{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:rgba(0,0,0,.88);
+z-index:20;
 text-align:center;
 }
 
-.screen{
-width:min(90vw,800px);
-position:relative;
-z-index:2;
+#overlay h1{
+font-size:clamp(40px,8vw,100px);
+margin-bottom:10px;
+color:#ff4655;
 }
 
-h1{
-font-size:clamp(40px,7vw,88px);
-margin-bottom:12px;
-}
-
-p{
-font-size:22px;
+#overlay p{
+font-size:24px;
 opacity:.9;
 }
 
-#btn{
-position:absolute;
-left:50%;
-top:65%;
-transform:translate(-50%,-50%);
-padding:20px 34px;
+#startBtn{
+margin-top:20px;
+padding:18px 30px;
 border:none;
-border-radius:999px;
-background:white;
-color:black;
-font-size:24px;
-font-weight:bold;
-cursor:pointer;
-transition:.12s;
-box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-
-#btn:hover{
-transform:translate(-50%,-50%) scale(1.08) rotate(-5deg);
-}
-
-.popup{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,.72);
-backdrop-filter:blur(8px);
-z-index:10;
-padding:20px;
-}
-
-.card{
-width:min(94vw,560px);
-background:white;
-color:black;
-padding:32px;
-border-radius:30px;
-box-shadow:0 0 80px rgba(255,0,80,.35);
-animation:pop .25s ease;
-}
-
-@keyframes pop{
-from{transform:scale(.8);opacity:0}
-to{transform:scale(1);opacity:1}
-}
-
-.card h2{
-margin-top:0;
-font-size:32px;
-}
-
-.card p{
-color:#555;
-font-size:18px;
-}
-
-input{
-width:100%;
-padding:16px;
-margin-top:16px;
-border-radius:16px;
-border:2px solid #ddd;
-font-size:20px;
-text-align:center;
-}
-
-button.action{
-margin-top:16px;
-width:100%;
-padding:15px;
-border:none;
-border-radius:16px;
-background:#7c3aed;
+border-radius:18px;
+background:#ff4655;
 color:white;
-font-size:17px;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
-transition:.14s;
 }
 
-button.action:hover{
-transform:scale(1.03);
-}
-
-#reply{
-min-height:34px;
-margin-top:18px;
-font-size:18px;
-font-weight:bold;
-color:#7c3aed;
-}
-
-.crash{
+#crash{
 position:fixed;
 inset:0;
 background:black;
@@ -146,32 +125,31 @@ overflow:hidden;
 
 .glitch{
 position:absolute;
-top:20%;
+top:18%;
 left:50%;
 transform:translateX(-50%);
-font-size:clamp(40px,8vw,100px);
+font-size:clamp(44px,9vw,110px);
 font-weight:bold;
 color:#ff003c;
-animation:glitch .08s infinite alternate;
-text-shadow:4px 0 #00e5ff;
+animation:glitch .07s infinite alternate;
+text-shadow:4px 0 cyan;
 }
 
 @keyframes glitch{
-from{transform:translateX(-50%) translate(-4px,1px)}
-to{transform:translateX(-50%) translate(4px,-1px)}
+from{transform:translateX(-50%) translate(-4px,2px)}
+to{transform:translateX(-50%) translate(4px,-2px)}
 }
 
-.terminal{
+#terminal{
 position:absolute;
+top:42%;
 left:50%;
-top:45%;
 transform:translateX(-50%);
 width:min(92vw,760px);
 font-family:Consolas,monospace;
-color:#00ff7f;
-font-size:18px;
-text-align:left;
+font-size:19px;
 line-height:1.7;
+color:#00ff88;
 }
 
 .scan{
@@ -184,272 +162,226 @@ rgba(255,255,255,.04) 2px,
 transparent 2px,
 transparent 5px
 );
-pointer-events:none;
 animation:flicker .08s infinite alternate;
+pointer-events:none;
 }
 
 @keyframes flicker{
-from{opacity:.3}
+from{opacity:.25}
 to{opacity:.55}
 }
 
-.fake{
-position:fixed;
-width:18px;
-height:18px;
-border:2px solid white;
-border-radius:50%;
-pointer-events:none;
-animation:click .6s ease forwards;
-z-index:999;
+.fakeLag{
+animation:lag .06s linear infinite;
 }
 
-@keyframes click{
-to{
-transform:scale(4);
-opacity:0;
-}
-}
-
-.shake{
-animation:shake .12s linear 4;
+@keyframes lag{
+0%{transform:translate(0)}
+25%{transform:translate(-4px,2px)}
+50%{transform:translate(4px,-2px)}
+75%{transform:translate(-2px,-3px)}
+100%{transform:translate(0)}
 }
 
-@keyframes shake{
-0%,100%{transform:translateX(0)}
-25%{transform:translateX(-10px)}
-75%{transform:translateX(10px)}
-}
 </style>
 </head>
 
 <body>
 
-<div class="screen">
-<h1>KLICK MICH 😇</h1>
-<p>Beweise, dass du kein Bot bist.</p>
+<div id="hud">
+<div class="box">Kills: <span id="kills">0</span></div>
+<div class="box">Misses: <span id="misses">0</span></div>
+<div class="box">Rank: <span id="rank">Radiant?</span></div>
+<div class="box">Ping: <span id="ping">21</span>ms</div>
 </div>
 
-<button id="btn">Ich bin kein Bot</button>
+<div id="game"></div>
 
-<div class="popup" id="popup">
-<div class="card" id="card">
-<h2 id="title"></h2>
-<p id="desc"></p>
-
-<div id="inputArea"></div>
-
-<p id="reply"></p>
-
-<button class="action" id="checkBtn">Prüfen</button>
-<button class="action" id="nextBtn" style="display:none">Weiter</button>
-</div>
+<div id="overlay">
+<h1>VALORANT AIM TRAINER</h1>
+<p>Beweise, dass du kein Iron-Spieler bist 😭</p>
+<button id="startBtn">MATCH STARTEN</button>
 </div>
 
-<div class="crash" id="crash">
+<div id="crash">
 <div class="scan"></div>
-<div class="glitch">DU BIST EIN BOT</div>
-<div class="terminal" id="terminal"></div>
+<div class="glitch">SKILL ISSUE ERKANNT</div>
+<div id="terminal"></div>
 </div>
 
 <script>
 
-const btn=document.getElementById("btn");
-const popup=document.getElementById("popup");
-const card=document.getElementById("card");
-const title=document.getElementById("title");
-const desc=document.getElementById("desc");
-const inputArea=document.getElementById("inputArea");
-const reply=document.getElementById("reply");
-const checkBtn=document.getElementById("checkBtn");
-const nextBtn=document.getElementById("nextBtn");
+const game=document.getElementById("game");
+const overlay=document.getElementById("overlay");
+const startBtn=document.getElementById("startBtn");
+
+const killsText=document.getElementById("kills");
+const missesText=document.getElementById("misses");
+const rankText=document.getElementById("rank");
+const pingText=document.getElementById("ping");
+
 const crash=document.getElementById("crash");
 const terminal=document.getElementById("terminal");
 
-let escapes=0;
-let stage=0;
+let kills=0;
+let misses=0;
+let ping=21;
+let started=false;
 
-let ageFails=0;
-let animeFails=0;
+const ranks=[
+"Iron 1 😭",
+"Iron 2 😭",
+"Bronze Bot",
+"Plastic 4",
+"Cardboard Elite"
+];
 
-function moveButton(){
-escapes++;
+function randomPos(target){
 
-const x=Math.random()*(window.innerWidth-btn.offsetWidth-40);
-const y=Math.random()*(window.innerHeight-btn.offsetHeight-40);
+const x=Math.random()*(window.innerWidth-120);
+const y=Math.random()*(window.innerHeight-120);
 
-btn.style.left=x+"px";
-btn.style.top=y+"px";
-
-if(escapes>=5){
-startQuestions();
-}
-}
-
-btn.addEventListener("mouseenter",moveButton);
-btn.addEventListener("click",moveButton);
-
-function fakeClick(){
-const c=document.createElement("div");
-c.className="fake";
-c.style.left=Math.random()*window.innerWidth+"px";
-c.style.top=Math.random()*window.innerHeight+"px";
-document.body.appendChild(c);
-
-setTimeout(()=>c.remove(),600);
+target.style.left=x+"px";
+target.style.top=y+"px";
 }
 
-setInterval(fakeClick,900);
+function createTarget(){
 
-function startQuestions(){
-if(popup.style.display==="flex") return;
-btn.style.display="none";
-popup.style.display="flex";
-loadQuestion();
+if(!started) return;
+
+const target=document.createElement("div");
+target.className="target";
+target.innerHTML="🎯";
+
+randomPos(target);
+
+game.appendChild(target);
+
+let escaped=false;
+
+const move=setInterval(()=>{
+
+randomPos(target);
+
+if(Math.random()>.65){
+document.body.classList.add("fakeLag");
+setTimeout(()=>document.body.classList.remove("fakeLag"),120);
 }
 
-function loadQuestion(){
+},700);
 
-reply.textContent="";
-checkBtn.style.display="block";
-nextBtn.style.display="none";
+target.onclick=(e)=>{
 
-if(stage===0){
-title.textContent="Bro du hast NIE getroffen 😭";
-desc.textContent="Okay komm rein. Erste Sicherheitsfrage.";
-inputArea.innerHTML='<input id="answer" placeholder="Wie alt bist du?">';
-setTimeout(()=>document.getElementById("answer").focus(),50);
+e.stopPropagation();
+
+kills++;
+
+killsText.textContent=kills;
+
+target.classList.add("hit");
+
+clearInterval(move);
+
+setTimeout(()=>{
+target.remove();
+},120);
+
+if(kills<15){
+setTimeout(createTarget,350);
+}else{
+endGame();
 }
 
-if(stage===1){
-title.textContent="Noch eine Frage";
-desc.textContent="Was ist dein Lieblingsessen?";
-inputArea.innerHTML='<input id="answer" placeholder="Lieblingsessen...">';
-setTimeout(()=>document.getElementById("answer").focus(),50);
+};
+
+setTimeout(()=>{
+
+if(document.body.contains(target)){
+
+escaped=true;
+misses++;
+
+missesText.textContent=misses;
+
+rankText.textContent=ranks[Math.min(misses,ranks.length-1)];
+
+target.remove();
+
+clearInterval(move);
+
+if(started){
+setTimeout(createTarget,300);
 }
 
-if(stage===2){
-title.textContent="Letzte Frage";
-desc.textContent="Lieblingsanime?";
-inputArea.innerHTML='<input id="answer" placeholder="Anime...">';
-setTimeout(()=>document.getElementById("answer").focus(),50);
-}
 }
 
-document.addEventListener("keydown",(e)=>{
-if(e.key==="Enter" && popup.style.display==="flex" && checkBtn.style.display!=="none"){
-checkBtn.click();
+},2200);
+
 }
+
+document.body.addEventListener("click",(e)=>{
+
+if(!e.target.classList.contains("target") && started){
+
+misses++;
+
+missesText.textContent=misses;
+
+if(misses>2){
+rankText.textContent="Iron 1 😭";
+}
+
+}
+
 });
 
-checkBtn.onclick=()=>{
+function fakePing(){
 
-const value=document.getElementById("answer").value.trim().toLowerCase();
+setInterval(()=>{
 
-if(stage===0){
+if(!started) return;
 
-if(value==="30"){
-reply.textContent="Wusste ich doch.";
-nextBtn.style.display="block";
-checkBtn.style.display="none";
-return;
+ping=Math.floor(Math.random()*900)+20;
+
+pingText.textContent=ping;
+
+if(ping>700){
+rankText.textContent="Lag detected 😭";
 }
 
-ageFails++;
-
-card.classList.add("shake");
-setTimeout(()=>card.classList.remove("shake"),500);
-
-if(ageFails===1){
-reply.textContent="Falsch.";
-}
-
-else if(ageFails===2){
-reply.textContent="Bro… denk älter.";
-}
-
-else{
-reply.textContent="Hinweis: 30. Okay, ich lass dich trotzdem weiter.";
-nextBtn.style.display="block";
-checkBtn.style.display="none";
-}
+},1200);
 
 }
 
-if(stage===1){
+startBtn.onclick=()=>{
 
-if(value.includes("cig") || value.includes("çiğ")){
-reply.textContent="Cigköfte? Du absoluter Endgegner 😭";
-}
-else if(value.includes("salat")){
-reply.textContent="Hör auf zu lügen.";
-}
-else{
-reply.textContent="NPC-Essen erkannt.";
-}
+overlay.style.display="none";
+started=true;
 
-nextBtn.style.display="block";
-checkBtn.style.display="none";
-}
+fakePing();
 
-if(stage===2){
+createTarget();
 
-if(value==="naruto"){
-reply.textContent="Okay… wenigstens EIN bisschen Geschmack.";
-nextBtn.style.display="block";
-checkBtn.style.display="none";
-return;
-}
-
-animeFails++;
-
-card.classList.add("shake");
-setTimeout(()=>card.classList.remove("shake"),500);
-
-if(animeFails===1){
-reply.textContent="Das ist kein Geschmack.";
-}
-
-else if(animeFails===2){
-reply.textContent="Bro wirklich?";
-}
-
-else{
-reply.textContent="Hinweis: 🍥🥷🦊🍜 Okay, weiter. Das tut weh.";
-nextBtn.style.display="block";
-checkBtn.style.display="none";
-}
-
-}
 };
 
-nextBtn.onclick=()=>{
+function endGame(){
 
-stage++;
+started=false;
 
-if(stage>2){
-startCrash();
-}
-else{
-loadQuestion();
-}
-};
+setTimeout(()=>{
 
-function startCrash(){
-
-popup.style.display="none";
 crash.style.display="block";
 
 const lines=[
-"> BOT ERKANNT...",
-"> Lieblingsessen analysiert...",
-"> Anime-Geschmack katastrophal...",
+"> Vanguard gestartet...",
+"> Aim wird analysiert...",
+"> Trefferquote katastrophal...",
+"> Verdächtiger Iron-Spieler erkannt...",
+"> Mausbewegungen sehen illegal schlecht aus...",
+"> Radiant verweigert...",
 "> Discord Token gefunden...",
-"> Fortnite-Skins werden verkauft...",
-"> Mutter wird kontaktiert...",
-"> Menschlichkeit: 2%",
-"> Ergebnis: DU BIST EIN BOT",
-"> Bildschirm wird zerstört..."
+"> Fortnite-Skins gelöscht...",
+"> Ergebnis: DU WIRST NIE RADIANT 😭"
 ];
 
 let i=0;
@@ -457,6 +389,7 @@ let i=0;
 const inter=setInterval(()=>{
 
 terminal.innerHTML+=lines[i]+"<br>";
+
 i++;
 
 if(i>=lines.length){
@@ -469,7 +402,9 @@ terminal.innerHTML+="<br><br>SPAß 😭";
 
 }
 
-},650);
+},700);
+
+},1200);
 
 }
 
