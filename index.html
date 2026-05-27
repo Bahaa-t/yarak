@@ -4,53 +4,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ULTRA Anti-Bot Test</title>
+<title>Anti-Bot Test</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
 margin:0;
+height:100vh;
 overflow:hidden;
 font-family:Arial,sans-serif;
-background:black;
-color:white;
-height:100vh;
+background:
+radial-gradient(circle at top,#ff0055 0%,transparent 35%),
+radial-gradient(circle at bottom,#7c3aed 0%,transparent 40%),
+#09090f;
 display:flex;
 justify-content:center;
 align-items:center;
+color:white;
 text-align:center;
 }
 
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at top,#ff0055 0%,transparent 30%),
-radial-gradient(circle at bottom,#7c3aed 0%,transparent 35%);
-opacity:.35;
-animation:bgmove 8s linear infinite alternate;
-}
-
-@keyframes bgmove{
-from{transform:scale(1)}
-to{transform:scale(1.1)}
-}
-
-.container{
+.screen{
+width:min(90vw,800px);
 position:relative;
 z-index:2;
-width:min(90vw,900px);
 }
 
 h1{
-font-size:clamp(38px,7vw,88px);
-margin-bottom:10px;
+font-size:clamp(40px,7vw,88px);
+margin-bottom:12px;
 }
 
 p{
 font-size:22px;
-opacity:.85;
+opacity:.9;
 }
 
 #btn{
@@ -61,162 +49,170 @@ transform:translate(-50%,-50%);
 padding:20px 34px;
 border:none;
 border-radius:999px;
+background:white;
+color:black;
 font-size:24px;
 font-weight:bold;
 cursor:pointer;
-background:white;
-color:black;
 transition:.12s;
-z-index:5;
+box-shadow:0 20px 60px rgba(0,0,0,.5);
 }
 
 #btn:hover{
-transform:translate(-50%,-50%) scale(1.1) rotate(-6deg);
+transform:translate(-50%,-50%) scale(1.08) rotate(-5deg);
 }
 
 .popup{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.82);
 display:none;
 justify-content:center;
 align-items:center;
-z-index:20;
+background:rgba(0,0,0,.72);
+backdrop-filter:blur(8px);
+z-index:10;
 padding:20px;
 }
 
 .card{
-width:min(95vw,650px);
+width:min(94vw,560px);
 background:white;
 color:black;
-padding:30px;
+padding:32px;
 border-radius:30px;
-box-shadow:0 0 80px rgba(255,0,80,.5);
+box-shadow:0 0 80px rgba(255,0,80,.35);
 animation:pop .25s ease;
 }
 
 @keyframes pop{
-from{transform:scale(.7);opacity:0}
+from{transform:scale(.8);opacity:0}
 to{transform:scale(1);opacity:1}
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-top:20px;
+.card h2{
+margin-top:0;
+font-size:32px;
 }
 
-.tile{
-aspect-ratio:1;
-border-radius:18px;
-background:#ddd;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:42px;
-cursor:pointer;
-transition:.15s;
-user-select:none;
+.card p{
+color:#555;
+font-size:18px;
 }
 
-.tile:hover{
-transform:scale(1.05);
-}
-
-.tile.selected{
-background:#7c3aed;
-color:white;
-transform:scale(.92);
+input{
+width:100%;
+padding:16px;
+margin-top:16px;
+border-radius:16px;
+border:2px solid #ddd;
+font-size:20px;
+text-align:center;
 }
 
 button.action{
-margin-top:20px;
-padding:15px 22px;
+margin-top:16px;
+width:100%;
+padding:15px;
 border:none;
 border-radius:16px;
-background:#ff0055;
+background:#7c3aed;
 color:white;
-font-size:18px;
+font-size:17px;
 font-weight:bold;
 cursor:pointer;
+transition:.14s;
 }
 
-#message{
-margin-top:16px;
-font-weight:bold;
+button.action:hover{
+transform:scale(1.03);
+}
+
+#reply{
+min-height:34px;
+margin-top:18px;
 font-size:18px;
-min-height:30px;
+font-weight:bold;
 color:#7c3aed;
 }
 
-#finalHack{
+.crash{
 position:fixed;
 inset:0;
 background:black;
 display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
 z-index:999;
-font-family:monospace;
+overflow:hidden;
 }
 
 .glitch{
-font-size:clamp(30px,6vw,80px);
-color:#ff0033;
+position:absolute;
+top:20%;
+left:50%;
+transform:translateX(-50%);
+font-size:clamp(40px,8vw,100px);
+font-weight:bold;
+color:#ff003c;
 animation:glitch .08s infinite alternate;
+text-shadow:4px 0 #00e5ff;
 }
 
 @keyframes glitch{
-from{transform:translateX(-3px)}
-to{transform:translateX(3px)}
+from{transform:translateX(-50%) translate(-4px,1px)}
+to{transform:translateX(-50%) translate(4px,-1px)}
+}
+
+.terminal{
+position:absolute;
+left:50%;
+top:45%;
+transform:translateX(-50%);
+width:min(92vw,760px);
+font-family:Consolas,monospace;
+color:#00ff7f;
+font-size:18px;
+text-align:left;
+line-height:1.7;
 }
 
 .scan{
-position:fixed;
+position:absolute;
 inset:0;
 background:repeating-linear-gradient(
 to bottom,
-rgba(255,255,255,.03),
-rgba(255,255,255,.03) 2px,
+rgba(255,255,255,.04),
+rgba(255,255,255,.04) 2px,
 transparent 2px,
-transparent 4px
+transparent 5px
 );
 pointer-events:none;
-z-index:9999;
+animation:flicker .08s infinite alternate;
 }
 
-.fakecursor{
+@keyframes flicker{
+from{opacity:.3}
+to{opacity:.55}
+}
+
+.fake{
 position:fixed;
-width:20px;
-height:20px;
+width:18px;
+height:18px;
 border:2px solid white;
 border-radius:50%;
 pointer-events:none;
-animation:explode .7s ease forwards;
+animation:click .6s ease forwards;
 z-index:999;
 }
 
-@keyframes explode{
+@keyframes click{
 to{
 transform:scale(4);
 opacity:0;
 }
 }
 
-input{
-width:100%;
-padding:16px;
-font-size:22px;
-border-radius:16px;
-border:2px solid #ccc;
-margin-top:16px;
-text-align:center;
-}
-
 .shake{
-animation:shake .15s linear 4;
+animation:shake .12s linear 4;
 }
 
 @keyframes shake{
@@ -229,10 +225,8 @@ animation:shake .15s linear 4;
 
 <body>
 
-<div class="scan"></div>
-
-<div class="container">
-<h1>ANTI-BOT TEST</h1>
+<div class="screen">
+<h1>KLICK MICH 😇</h1>
 <p>Beweise, dass du kein Bot bist.</p>
 </div>
 
@@ -240,59 +234,43 @@ animation:shake .15s linear 4;
 
 <div class="popup" id="popup">
 <div class="card" id="card">
-<h2 id="title">Captcha Prüfung</h2>
-<p id="desc">Klicke alle Bilder mit echten Menschen an.</p>
+<h2 id="title"></h2>
+<p id="desc"></p>
 
-<div id="content"></div>
+<div id="inputArea"></div>
 
-<div id="message"></div>
+<p id="reply"></p>
 
-<button class="action" id="next">Weiter</button>
+<button class="action" id="checkBtn">Prüfen</button>
+<button class="action" id="nextBtn" style="display:none">Weiter</button>
 </div>
 </div>
 
-<div id="finalHack">
-<div class="glitch">BOTS GEHACKT</div>
-<p>System kompromittiert...</p>
-<p>IP wird an NASA geschickt...</p>
-<p>Bitte nicht Browser schließen...</p>
+<div class="crash" id="crash">
+<div class="scan"></div>
+<div class="glitch">DU BIST EIN BOT</div>
+<div class="terminal" id="terminal"></div>
 </div>
 
 <script>
 
 const btn=document.getElementById("btn");
 const popup=document.getElementById("popup");
-const content=document.getElementById("content");
-const message=document.getElementById("message");
-const next=document.getElementById("next");
+const card=document.getElementById("card");
 const title=document.getElementById("title");
 const desc=document.getElementById("desc");
-const card=document.getElementById("card");
-const finalHack=document.getElementById("finalHack");
+const inputArea=document.getElementById("inputArea");
+const reply=document.getElementById("reply");
+const checkBtn=document.getElementById("checkBtn");
+const nextBtn=document.getElementById("nextBtn");
+const crash=document.getElementById("crash");
+const terminal=document.getElementById("terminal");
 
-let stage=-1;
 let escapes=0;
+let stage=0;
 
-const stages=[
-{
-type:"captcha",
-title:"Google Ultra Secure Captcha",
-desc:"Klicke alle echten Menschen an.",
-tiles:["🤖","🧍","🤖","🧍","🤖","🤖","🧍","🤖","🤖"]
-},
-{
-type:"captcha",
-title:"Sicherheitsprüfung 2",
-desc:"Klicke alle Busse an.",
-tiles:["🚌","🚗","🚲","🚌","🚓","🚗","🚕","🚌","🚑"]
-},
-{
-type:"age"
-},
-{
-type:"choice"
-}
-];
+let ageFails=0;
+let animeFails=0;
 
 function moveButton(){
 escapes++;
@@ -303,170 +281,182 @@ const y=Math.random()*(window.innerHeight-btn.offsetHeight-40);
 btn.style.left=x+"px";
 btn.style.top=y+"px";
 
-if(escapes>8){
-openPopup();
+if(escapes>7){
+startQuestions();
 }
 }
 
 btn.addEventListener("mouseenter",moveButton);
 btn.addEventListener("click",moveButton);
 
-function fakeClicks(){
+function fakeClick(){
 const c=document.createElement("div");
-c.className="fakecursor";
+c.className="fake";
 c.style.left=Math.random()*window.innerWidth+"px";
 c.style.top=Math.random()*window.innerHeight+"px";
 document.body.appendChild(c);
-setTimeout(()=>c.remove(),700);
+
+setTimeout(()=>c.remove(),600);
 }
 
-setInterval(fakeClicks,800);
+setInterval(fakeClick,900);
 
-function openPopup(){
-popup.style.display="flex";
+function startQuestions(){
 btn.style.display="none";
-next.style.display="none";
-stage=-1;
-loadStage();
+popup.style.display="flex";
+loadQuestion();
 }
 
-function loadStage(){
+function loadQuestion(){
+
+reply.textContent="";
+checkBtn.style.display="block";
+nextBtn.style.display="none";
+
+if(stage===0){
+title.textContent="Bro du hast NIE getroffen 😭";
+desc.textContent="Okay komm rein. Erste Sicherheitsfrage.";
+inputArea.innerHTML='<input id="answer" placeholder="Wie alt bist du?">';
+}
+
+if(stage===1){
+title.textContent="Noch eine Frage";
+desc.textContent="Was ist dein Lieblingsessen?";
+inputArea.innerHTML='<input id="answer" placeholder="Lieblingsessen...">';
+}
+
+if(stage===2){
+title.textContent="Letzte Frage";
+desc.textContent="Lieblingsanime?";
+inputArea.innerHTML='<input id="answer" placeholder="Anime...">';
+}
+}
+
+checkBtn.onclick=()=>{
+
+const value=document.getElementById("answer").value.trim().toLowerCase();
+
+if(stage===0){
+
+if(value==="30"){
+reply.textContent="Wusste ich doch.";
+nextBtn.style.display="block";
+checkBtn.style.display="none";
+return;
+}
+
+ageFails++;
+
+card.classList.add("shake");
+setTimeout(()=>card.classList.remove("shake"),500);
+
+if(ageFails===1){
+reply.textContent="Falsch.";
+}
+
+else if(ageFails===2){
+reply.textContent="Bro… denk älter.";
+}
+
+else{
+reply.textContent="Hinweis: 30.";
+}
+
+}
+
+if(stage===1){
+
+if(value.includes("cig") || value.includes("çiğ")){
+reply.textContent="Cigköfte? Du absoluter Endgegner 😭";
+}
+else if(value.includes("salat")){
+reply.textContent="Hör auf zu lügen.";
+}
+else{
+reply.textContent="NPC-Essen erkannt.";
+}
+
+nextBtn.style.display="block";
+checkBtn.style.display="none";
+}
+
+if(stage===2){
+
+if(value==="naruto"){
+reply.textContent="Okay… wenigstens EIN bisschen Geschmack.";
+nextBtn.style.display="block";
+checkBtn.style.display="none";
+return;
+}
+
+animeFails++;
+
+card.classList.add("shake");
+setTimeout(()=>card.classList.remove("shake"),500);
+
+if(animeFails===1){
+reply.textContent="Das ist kein Geschmack.";
+}
+
+else if(animeFails===2){
+reply.textContent="Bro wirklich?";
+}
+
+else{
+reply.textContent="Hinweis: 🍥🥷🦊🍜";
+}
+
+}
+};
+
+nextBtn.onclick=()=>{
+
 stage++;
-message.textContent="";
-content.innerHTML="";
-next.style.display="none";
 
-const s=stages[stage];
-
-if(s.type==="captcha"){
-title.textContent=s.title;
-desc.textContent=s.desc;
-
-const grid=document.createElement("div");
-grid.className="grid";
-
-s.tiles.forEach(item=>{
-const tile=document.createElement("div");
-tile.className="tile";
-tile.textContent=item;
-
-tile.onclick=()=>{
-tile.classList.toggle("selected");
+if(stage>2){
+startCrash();
+}
+else{
+loadQuestion();
+}
 };
 
-grid.appendChild(tile);
-});
+function startCrash(){
 
-content.appendChild(grid);
-
-const verify=document.createElement("button");
-verify.className="action";
-verify.textContent="Bestätigen";
-
-verify.onclick=()=>{
-card.classList.add("shake");
-
-setTimeout(()=>card.classList.remove("shake"),700);
-
-message.textContent="Falsch. Verdächtiges Bot-Verhalten erkannt.";
-
-next.style.display="inline-block";
-};
-
-content.appendChild(verify);
-}
-
-if(s.type==="age"){
-title.textContent="Altersprüfung";
-desc.textContent="Gib dein echtes Alter ein. Hinweis: Die richtige Antwort ist 30.";
-
-const input=document.createElement("input");
-input.placeholder="Alter";
-
-const verify=document.createElement("button");
-verify.className="action";
-verify.textContent="Prüfen";
-
-verify.onclick=()=>{
-if(input.value==="30"){
-message.textContent="Korrekt. Du bist anscheinend 30.";
-}else{
-message.textContent="Falsch. Du schätzt dich zu jung.";
-card.classList.add("shake");
-setTimeout(()=>card.classList.remove("shake"),700);
-}
-next.style.display="inline-block";
-};
-
-content.appendChild(input);
-content.appendChild(verify);
-}
-
-if(s.type==="choice"){
-title.textContent="Menschlichkeits-Test";
-desc.textContent="Was würdest du als Mensch tun?";
-
-const answers=[
-["Panik bekommen","Normale Reaktion. Trotzdem Bot."],
-["Browser schließen","Zu spät."],
-["So tun als wäre ich kein Bot","EXTREM verdächtig."]
-];
-
-answers.forEach(a=>{
-const b=document.createElement("button");
-b.className="action";
-b.style.display="block";
-b.style.width="100%";
-b.style.marginTop="12px";
-b.textContent=a[0];
-
-b.onclick=()=>{
-message.textContent=a[1];
-next.style.display="inline-block";
-};
-
-content.appendChild(b);
-});
-
-next.textContent="Endauswertung";
-}
-
-if(stage>=stages.length){
-startHack();
-}
-}
-
-next.onclick=()=>loadStage();
-
-function startHack(){
 popup.style.display="none";
-finalHack.style.display="flex";
+crash.style.display="block";
 
-let texts=[
-"BOT ERKANNT...",
-"SYSTEM INFIZIERT...",
-"ALLE DATEN WERDEN HOCHGELADEN...",
-"DISCORD TOKEN GEFUNDEN...",
-"MUTTER WIRD KONTAKTIERT...",
-"ZU SPÄT..."
+const lines=[
+"> BOT ERKANNT...",
+"> Lieblingsessen analysiert...",
+"> Anime-Geschmack katastrophal...",
+"> Discord Token gefunden...",
+"> Fortnite-Skins werden verkauft...",
+"> Mutter wird kontaktiert...",
+"> Menschlichkeit: 2%",
+"> Ergebnis: DU BIST EIN BOT",
+"> Bildschirm wird zerstört..."
 ];
 
 let i=0;
 
-const interval=setInterval(()=>{
-document.querySelector(".glitch").textContent=texts[i%texts.length];
+const inter=setInterval(()=>{
+
+terminal.innerHTML+=lines[i]+"<br>";
 i++;
 
-if(i>12){
-clearInterval(interval);
+if(i>=lines.length){
+
+clearInterval(inter);
 
 setTimeout(()=>{
-alert("Spaß 😈 Du bist offiziell ein Bot.");
-location.reload();
-},2000);
+terminal.innerHTML+="<br><br>SPAß 😭";
+},1500);
+
 }
 
-},900);
+},650);
+
 }
 
 </script>
