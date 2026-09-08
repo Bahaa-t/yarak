@@ -1,414 +1,543 @@
-
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valorant Aim Trainer 😭</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0d12" />
+  <title>lowkey ein kleiner vibe check</title>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --panel: rgba(20, 24, 33, 0.82);
+      --line: rgba(255, 255, 255, 0.11);
+      --text: #f5f7fb;
+      --muted: #a9b0bd;
+      --matcha: #b9ff66;
+      --matcha-dark: #5f8e28;
+      --hot: #ff4d6d;
+      --cyan: #4deeea;
+    }
 
-<style>
+    * { box-sizing: border-box; }
 
-*{box-sizing:border-box}
+    html, body { min-height: 100%; }
 
-body{
-margin:0;
-overflow:hidden;
-height:100vh;
-font-family:Arial,sans-serif;
-background:
-radial-gradient(circle at top,#ff4655 0%,transparent 35%),
-#0f1118;
-color:white;
-cursor:crosshair;
-}
+    body {
+      margin: 0;
+      min-height: 100svh;
+      overflow: hidden;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(185, 255, 102, 0.15), transparent 30%),
+        radial-gradient(circle at 88% 20%, rgba(255, 77, 109, 0.13), transparent 28%),
+        linear-gradient(145deg, #080a0f, #111621 70%, #090b10);
+    }
 
-#hud{
-position:fixed;
-top:20px;
-left:50%;
-transform:translateX(-50%);
-display:flex;
-gap:20px;
-font-size:22px;
-font-weight:bold;
-z-index:10;
-}
+    button { font: inherit; }
 
-.box{
-background:rgba(255,255,255,.08);
-padding:12px 20px;
-border-radius:16px;
-backdrop-filter:blur(8px);
-}
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.035;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
+    }
 
-#game{
-position:relative;
-width:100%;
-height:100%;
-overflow:hidden;
-}
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      transition: opacity 260ms ease, visibility 260ms ease;
+    }
 
-.target{
-position:absolute;
-width:90px;
-height:90px;
-border-radius:50%;
-background:
-radial-gradient(circle at 30% 30%,white,#ff4655 55%,#4d0d12);
-box-shadow:0 0 40px rgba(255,70,85,.7);
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:34px;
-cursor:pointer;
-user-select:none;
-transition:.08s linear;
-}
+    .screen[hidden] {
+      display: none;
+    }
 
-.target:hover{
-transform:scale(1.05);
-}
+    .card {
+      width: min(720px, 100%);
+      padding: clamp(26px, 5vw, 52px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(18px);
+      text-align: center;
+    }
 
-.hit{
-animation:hit .2s ease;
-}
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--matcha);
+      font-size: 0.82rem;
+      font-weight: 850;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
 
-@keyframes hit{
-0%{transform:scale(1)}
-50%{transform:scale(.8)}
-100%{transform:scale(1)}
-}
+    h1 {
+      margin: 0;
+      font-size: clamp(2.65rem, 10vw, 6.4rem);
+      line-height: 0.93;
+      letter-spacing: -0.07em;
+    }
 
-#overlay{
-position:fixed;
-inset:0;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-background:rgba(0,0,0,.88);
-z-index:20;
-text-align:center;
-}
+    .accent { color: var(--hot); }
 
-#overlay h1{
-font-size:clamp(40px,8vw,100px);
-margin-bottom:10px;
-color:#ff4655;
-}
+    .lead {
+      max-width: 520px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.3vw, 1.2rem);
+      line-height: 1.65;
+    }
 
-#overlay p{
-font-size:24px;
-opacity:.9;
-}
+    .start-btn, .replay-btn {
+      margin-top: 28px;
+      min-height: 54px;
+      padding: 0 26px;
+      border: 0;
+      border-radius: 999px;
+      color: #0b0d12;
+      background: var(--matcha);
+      box-shadow: 0 10px 34px rgba(185, 255, 102, 0.25);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
 
-#startBtn{
-margin-top:20px;
-padding:18px 30px;
-border:none;
-border-radius:18px;
-background:#ff4655;
-color:white;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
-}
+    .start-btn:hover, .replay-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 14px 42px rgba(185, 255, 102, 0.34);
+    }
 
-#crash{
-position:fixed;
-inset:0;
-background:black;
-display:none;
-z-index:999;
-overflow:hidden;
-}
+    .start-btn:focus-visible, .replay-btn:focus-visible, .word:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 4px;
+    }
 
-.glitch{
-position:absolute;
-top:18%;
-left:50%;
-transform:translateX(-50%);
-font-size:clamp(44px,9vw,110px);
-font-weight:bold;
-color:#ff003c;
-animation:glitch .07s infinite alternate;
-text-shadow:4px 0 cyan;
-}
+    #game {
+      display: block;
+      cursor: crosshair;
+    }
 
-@keyframes glitch{
-from{transform:translateX(-50%) translate(-4px,2px)}
-to{transform:translateX(-50%) translate(4px,-2px)}
-}
+    .hud {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      z-index: 5;
+      display: flex;
+      width: min(760px, calc(100% - 24px));
+      justify-content: space-between;
+      gap: 10px;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
 
-#terminal{
-position:absolute;
-top:42%;
-left:50%;
-transform:translateX(-50%);
-width:min(92vw,760px);
-font-family:Consolas,monospace;
-font-size:19px;
-line-height:1.7;
-color:#00ff88;
-}
+    .pill {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(10, 12, 18, 0.76);
+      backdrop-filter: blur(12px);
+      text-align: center;
+      font-size: clamp(0.76rem, 2vw, 0.95rem);
+      white-space: nowrap;
+    }
 
-.scan{
-position:absolute;
-inset:0;
-background:repeating-linear-gradient(
-to bottom,
-rgba(255,255,255,.04),
-rgba(255,255,255,.04) 2px,
-transparent 2px,
-transparent 5px
-);
-animation:flicker .08s infinite alternate;
-pointer-events:none;
-}
+    .pill strong { color: var(--text); }
 
-@keyframes flicker{
-from{opacity:.25}
-to{opacity:.55}
-}
+    .game-tip {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      margin: 0;
+      transform: translateX(-50%);
+      color: var(--muted);
+      text-align: center;
+      white-space: nowrap;
+    }
 
-.fakeLag{
-animation:lag .06s linear infinite;
-}
+    .word {
+      position: absolute;
+      z-index: 2;
+      min-width: 90px;
+      min-height: 58px;
+      padding: 12px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 20px;
+      color: var(--text);
+      background: rgba(24, 29, 39, 0.92);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.34), 0 0 28px rgba(185, 255, 102, 0.08);
+      font-weight: 900;
+      cursor: pointer;
+      user-select: none;
+      animation: pop 180ms cubic-bezier(.2, .85, .25, 1.25);
+    }
 
-@keyframes lag{
-0%{transform:translate(0)}
-25%{transform:translate(-4px,2px)}
-50%{transform:translate(4px,-2px)}
-75%{transform:translate(-2px,-3px)}
-100%{transform:translate(0)}
-}
+    .word.special {
+      color: #142006;
+      background: var(--matcha);
+    }
 
-</style>
+    .word:hover { transform: rotate(-2deg) scale(1.06); }
+
+    @keyframes pop {
+      from { opacity: 0; transform: scale(0.5) rotate(8deg); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #scan {
+      z-index: 20;
+      place-items: stretch;
+      padding: 0;
+      background: #020404;
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    #scan::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(to bottom, rgba(255,255,255,.04) 0 1px, transparent 1px 4px);
+      animation: flicker 90ms infinite alternate;
+    }
+
+    .scan-inner {
+      position: relative;
+      z-index: 1;
+      width: min(880px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    .scan-title {
+      margin: 0 0 22px;
+      color: var(--hot);
+      font-size: clamp(2rem, 8vw, 5.5rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      text-shadow: 3px 0 var(--cyan), -3px 0 #6b19ff;
+      animation: glitch 80ms infinite alternate;
+    }
+
+    #terminal {
+      min-height: 260px;
+      color: #72ff9c;
+      font-size: clamp(0.88rem, 2.6vw, 1.12rem);
+      line-height: 1.75;
+    }
+
+    .warning { color: #ffd166; }
+    .danger { color: var(--hot); }
+
+    #flood {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      overflow: hidden;
+      background: #030305;
+    }
+
+    .chaos-word {
+      position: absolute;
+      color: var(--hot);
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      font-weight: 950;
+      white-space: nowrap;
+      text-shadow: 2px 0 var(--cyan), -2px 0 #871cff;
+      animation: chaos-in 240ms ease-out both, chaos-shake 90ms 240ms infinite alternate;
+      user-select: none;
+    }
+
+    #final {
+      z-index: 60;
+      background: rgba(3, 4, 7, 0.86);
+      backdrop-filter: blur(12px);
+    }
+
+    .final-card {
+      transform: rotate(-1deg);
+      border-color: rgba(185, 255, 102, 0.38);
+    }
+
+    .final-card h2 {
+      margin: 0;
+      font-size: clamp(2.4rem, 9vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .tiny {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @keyframes glitch {
+      from { transform: translate(-3px, 1px) skewX(-2deg); }
+      to { transform: translate(4px, -2px) skewX(3deg); }
+    }
+
+    @keyframes flicker {
+      from { opacity: 0.25; }
+      to { opacity: 0.62; }
+    }
+
+    @keyframes chaos-in {
+      from { opacity: 0; transform: scale(3) rotate(-14deg); }
+      to { opacity: 1; transform: scale(1) rotate(var(--turn)); }
+    }
+
+    @keyframes chaos-shake {
+      from { translate: -3px 2px; filter: hue-rotate(0deg); }
+      to { translate: 3px -2px; filter: hue-rotate(24deg); }
+    }
+
+    .shake { animation: screen-shake 80ms infinite alternate; }
+
+    @keyframes screen-shake {
+      from { transform: translate(-2px, 1px); }
+      to { transform: translate(2px, -1px); }
+    }
+
+    @media (max-width: 560px) {
+      .hud { top: 10px; gap: 5px; }
+      .pill { padding: 8px 7px; }
+      .game-tip { bottom: 12px; font-size: 0.85rem; }
+      .word { min-width: 76px; min-height: 52px; padding: 10px 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<div id="hud">
-<div class="box">Kills: <span id="kills">0</span></div>
-<div class="box">Misses: <span id="misses">0</span></div>
-<div class="box">Rank: <span id="rank">Radiant?</span></div>
-<div class="box">Ping: <span id="ping">21</span>ms</div>
-</div>
-
-<div id="game"></div>
-
-<div id="overlay">
-<h1>VALORANT AIM TRAINER</h1>
-<p>Beweise, dass du kein Iron-Spieler bist 😭</p>
-<button id="startBtn">MATCH STARTEN</button>
-</div>
-
-<div id="crash">
-<div class="scan"></div>
-<div class="glitch">SKILL ISSUE ERKANNT</div>
-<div id="terminal"></div>
-</div>
-
-<script>
-
-const game=document.getElementById("game");
-const overlay=document.getElementById("overlay");
-const startBtn=document.getElementById("startBtn");
-
-const killsText=document.getElementById("kills");
-const missesText=document.getElementById("misses");
-const rankText=document.getElementById("rank");
-const pingText=document.getElementById("ping");
-
-const crash=document.getElementById("crash");
-const terminal=document.getElementById("terminal");
-
-let kills=0;
-let misses=0;
-let ping=21;
-let started=false;
-
-const ranks=[
-"Iron 1 😭",
-"Iron 2 😭",
-"Bronze Bot",
-"Plastic 4",
-"Cardboard Elite"
-];
-
-function randomPos(target){
-
-const x=Math.random()*(window.innerWidth-120);
-const y=Math.random()*(window.innerHeight-120);
-
-target.style.left=x+"px";
-target.style.top=y+"px";
-}
-
-function createTarget(){
-
-if(!started) return;
-
-const target=document.createElement("div");
-target.className="target";
-target.innerHTML="🎯";
-
-randomPos(target);
-
-game.appendChild(target);
-
-let escaped=false;
-
-const move=setInterval(()=>{
-
-randomPos(target);
-
-if(Math.random()>.65){
-document.body.classList.add("fakeLag");
-setTimeout(()=>document.body.classList.remove("fakeLag"),120);
-}
-
-},700);
-
-target.onclick=(e)=>{
-
-e.stopPropagation();
-
-kills++;
-
-killsText.textContent=kills;
-
-target.classList.add("hit");
-
-clearInterval(move);
-
-setTimeout(()=>{
-target.remove();
-},120);
-
-if(kills<15){
-setTimeout(createTarget,350);
-}else{
-endGame();
-}
-
-};
-
-setTimeout(()=>{
-
-if(document.body.contains(target)){
-
-escaped=true;
-misses++;
-
-missesText.textContent=misses;
-
-rankText.textContent=ranks[Math.min(misses,ranks.length-1)];
-
-target.remove();
-
-clearInterval(move);
-
-if(started){
-setTimeout(createTarget,300);
-}
-
-}
-
-},2200);
-
-}
-
-document.body.addEventListener("click",(e)=>{
-
-if(!e.target.classList.contains("target") && started){
-
-misses++;
-
-missesText.textContent=misses;
-
-if(misses>2){
-rankText.textContent="Iron 1 😭";
-}
-
-}
-
-});
-
-function fakePing(){
-
-setInterval(()=>{
-
-if(!started) return;
-
-ping=Math.floor(Math.random()*900)+20;
-
-pingText.textContent=ping;
-
-if(ping>700){
-rankText.textContent="Lag detected 😭";
-}
-
-},1200);
-
-}
-
-startBtn.onclick=()=>{
-
-overlay.style.display="none";
-started=true;
-
-fakePing();
-
-createTarget();
-
-};
-
-function endGame(){
-
-started=false;
-
-setTimeout(()=>{
-
-crash.style.display="block";
-
-const lines=[
-"> Vanguard gestartet...",
-"> Aim wird analysiert...",
-"> Trefferquote katastrophal...",
-"> Verdächtiger Iron-Spieler erkannt...",
-"> Mausbewegungen sehen illegal schlecht aus...",
-"> Radiant verweigert...",
-"> Discord Token gefunden...",
-"> Fortnite-Skins gelöscht...",
-"> Ergebnis: DU WIRST NIE RADIANT 😭"
-];
-
-let i=0;
-
-const inter=setInterval(()=>{
-
-terminal.innerHTML+=lines[i]+"<br>";
-
-i++;
-
-if(i>=lines.length){
-
-clearInterval(inter);
-
-setTimeout(()=>{
-terminal.innerHTML+="<br><br>SPAß 😭";
-},1500);
-
-}
-
-},700);
-
-},1200);
-
-}
-
-</script>
-
+  <div class="noise" aria-hidden="true"></div>
+
+  <main>
+    <section id="intro" class="screen" aria-labelledby="intro-title">
+      <div class="card">
+        <p class="eyebrow">inoffizieller Persönlichkeitstest</p>
+        <h1 id="intro-title">lowkey ein<br><span class="accent">vibe check</span></h1>
+        <p class="lead">Triff 12 Wörter. Nicht nachdenken. Einfach genau das anklicken, was dein Gehirn gerade fühlt. 67 % wissenschaftlich geprüft.</p>
+        <button id="start" class="start-btn" type="button">genau, starten</button>
+      </div>
+    </section>
+
+    <section id="game" class="screen" hidden aria-label="Vibe-Check-Spiel">
+      <div class="hud" aria-live="polite">
+        <div class="pill">Treffer <strong id="hits">0/12</strong></div>
+        <div class="pill">Vibe <strong id="vibe">lowkey</strong></div>
+        <div class="pill">Analyse <strong id="progress">0%</strong></div>
+      </div>
+      <p class="game-tip">klick die Wörter, bevor sie wieder sad verschwinden</p>
+    </section>
+
+    <section id="scan" class="screen" hidden aria-live="assertive">
+      <div class="scan-inner">
+        <h2 class="scan-title">warte mal...</h2>
+        <div id="terminal"></div>
+      </div>
+    </section>
+
+    <div id="flood" aria-hidden="true"></div>
+
+    <section id="final" class="screen" hidden aria-labelledby="final-title">
+      <div class="card final-card">
+        <p class="eyebrow">entspann dich 😭</p>
+        <h2 id="final-title">war nur ein<br><span class="accent">Prank</span></h2>
+        <p class="lead">Nichts wurde gehackt, nichts gespeichert. Dein Ergebnis ist einfach: <strong>67 % Matcha, 33 % Çiğköfte und 100 % „keine Ahnung“.</strong></p>
+        <button id="replay" class="replay-btn" type="button">nochmal, genau</button>
+        <p class="tiny">02.10.2005 bleibt trotzdem ein verdächtig ikonisches Datum.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const intro = document.querySelector("#intro");
+    const game = document.querySelector("#game");
+    const scan = document.querySelector("#scan");
+    const flood = document.querySelector("#flood");
+    const finalScreen = document.querySelector("#final");
+    const startButton = document.querySelector("#start");
+    const replayButton = document.querySelector("#replay");
+    const hitsText = document.querySelector("#hits");
+    const vibeText = document.querySelector("#vibe");
+    const progressText = document.querySelector("#progress");
+    const terminal = document.querySelector("#terminal");
+
+    const words = [
+      "sad", "lowkey", "genau", "67", "Matcha", "Çiğköfte",
+      "keine Ahnung", "genau 😭", "lowkey sad", "67???", "Matcha > alles"
+    ];
+    const vibes = ["lowkey", "sad", "genau", "Matcha-Modus", "67-core", "keine Ahnung"];
+    const requiredHits = 12;
+    let hits = 0;
+    let target = null;
+    let targetTimer = null;
+    let running = false;
+
+    function safeArea() {
+      const margin = 18;
+      const top = 90;
+      const bottom = 92;
+      return {
+        minX: margin,
+        maxX: Math.max(margin, window.innerWidth - 190),
+        minY: top,
+        maxY: Math.max(top, window.innerHeight - bottom)
+      };
+    }
+
+    function randomBetween(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function removeTarget() {
+      clearTimeout(targetTimer);
+      if (target) target.remove();
+      target = null;
+    }
+
+    function spawnTarget() {
+      if (!running) return;
+      removeTarget();
+
+      const area = safeArea();
+      const button = document.createElement("button");
+      const text = words[Math.floor(Math.random() * words.length)];
+      button.type = "button";
+      button.className = "word" + (text.includes("Matcha") || text === "67" ? " special" : "");
+      button.textContent = text;
+      button.style.left = randomBetween(area.minX, area.maxX) + "px";
+      button.style.top = randomBetween(area.minY, area.maxY) + "px";
+      button.style.rotate = randomBetween(-8, 8) + "deg";
+      button.setAttribute("aria-label", text + " treffen");
+
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        hits += 1;
+        hitsText.textContent = `${hits}/${requiredHits}`;
+        progressText.textContent = Math.min(99, Math.round((hits / requiredHits) * 67)) + "%";
+        vibeText.textContent = vibes[Math.min(vibes.length - 1, Math.floor(hits / 2))];
+        button.animate(
+          [{ transform: "scale(1)" }, { transform: "scale(.68) rotate(8deg)", opacity: .4 }],
+          { duration: 150, easing: "ease-out" }
+        );
+
+        if (hits >= requiredHits) {
+          running = false;
+          removeTarget();
+          setTimeout(beginScan, 250);
+        } else {
+          setTimeout(spawnTarget, 130);
+        }
+      });
+
+      game.appendChild(button);
+      target = button;
+      targetTimer = setTimeout(spawnTarget, Math.max(650, 1250 - hits * 38));
+    }
+
+    function startGame() {
+      hits = 0;
+      running = true;
+      hitsText.textContent = `0/${requiredHits}`;
+      vibeText.textContent = "lowkey";
+      progressText.textContent = "0%";
+      terminal.innerHTML = "";
+      flood.innerHTML = "";
+      flood.style.display = "none";
+      document.body.classList.remove("shake");
+      intro.hidden = true;
+      finalScreen.hidden = true;
+      scan.hidden = true;
+      game.hidden = false;
+      spawnTarget();
+    }
+
+    function addTerminalLine(html) {
+      const line = document.createElement("div");
+      line.innerHTML = html;
+      terminal.appendChild(line);
+    }
+
+    function beginScan() {
+      game.hidden = true;
+      scan.hidden = false;
+      const lines = [
+        "> vibe_check.exe gestartet...",
+        "> Lieblingswörter erkannt: <span class='warning'>sad / lowkey / genau</span>",
+        "> mysteriöse Zahl gefunden: <span class='warning'>67</span>",
+        "> Matcha-Level: <span class='warning'>KRITISCH HOCH</span>",
+        "> Çiğköfte-Abhängigkeit: <span class='warning'>bestätigt</span>",
+        "> Geburtstag wird abgeglichen: <span class='warning'>02.10.2005</span>",
+        "> letzte Antwort wird geladen...",
+        "> FEHLER 67: <span class='danger'>ANTWORT AUSSER KONTROLLE</span>"
+      ];
+
+      let index = 0;
+      const timer = setInterval(() => {
+        addTerminalLine(lines[index]);
+        index += 1;
+        if (index === lines.length) {
+          clearInterval(timer);
+          setTimeout(startFlood, 650);
+        }
+      }, 420);
+    }
+
+    function startFlood() {
+      scan.hidden = true;
+      flood.style.display = "block";
+      document.body.classList.add("shake");
+      const total = window.innerWidth < 600 ? 42 : 78;
+      let made = 0;
+
+      const interval = setInterval(() => {
+        const word = document.createElement("span");
+        word.className = "chaos-word";
+        word.textContent = "KEINE AHNUNG";
+        word.style.left = randomBetween(-40, Math.max(-40, window.innerWidth - 130)) + "px";
+        word.style.top = randomBetween(-20, Math.max(-20, window.innerHeight - 50)) + "px";
+        word.style.fontSize = randomBetween(18, 58) + "px";
+        word.style.opacity = (Math.random() * 0.45 + 0.55).toFixed(2);
+        word.style.setProperty("--turn", randomBetween(-18, 18) + "deg");
+        flood.appendChild(word);
+        made += 1;
+
+        if (made >= total) {
+          clearInterval(interval);
+          setTimeout(showReveal, 1900);
+        }
+      }, 42);
+    }
+
+    function showReveal() {
+      document.body.classList.remove("shake");
+      flood.style.display = "none";
+      finalScreen.hidden = false;
+    }
+
+    startButton.addEventListener("click", startGame);
+    replayButton.addEventListener("click", startGame);
+
+    window.addEventListener("resize", () => {
+      if (running) spawnTarget();
+    });
+  </script>
 </body>
 </html>
