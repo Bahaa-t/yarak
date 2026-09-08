@@ -1,10 +1,12 @@
+```html
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0d12" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0d12">
   <title>lowkey ein kleiner vibe check</title>
+
   <style>
     :root {
       --bg: #0b0d12;
@@ -13,28 +15,34 @@
       --text: #f5f7fb;
       --muted: #a9b0bd;
       --matcha: #b9ff66;
-      --matcha-dark: #5f8e28;
       --hot: #ff4d6d;
       --cyan: #4deeea;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html, body { min-height: 100%; }
+    html,
+    body {
+      min-height: 100%;
+    }
 
     body {
       margin: 0;
       min-height: 100svh;
       overflow: hidden;
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at 12% 12%, rgba(185, 255, 102, 0.15), transparent 30%),
         radial-gradient(circle at 88% 20%, rgba(255, 77, 109, 0.13), transparent 28%),
         linear-gradient(145deg, #080a0f, #111621 70%, #090b10);
     }
 
-    button { font: inherit; }
+    button {
+      font: inherit;
+    }
 
     .noise {
       position: fixed;
@@ -51,7 +59,6 @@
       display: grid;
       place-items: center;
       padding: 22px;
-      transition: opacity 260ms ease, visibility 260ms ease;
     }
 
     .screen[hidden] {
@@ -85,7 +92,9 @@
       letter-spacing: -0.07em;
     }
 
-    .accent { color: var(--hot); }
+    .accent {
+      color: var(--hot);
+    }
 
     .lead {
       max-width: 520px;
@@ -95,9 +104,10 @@
       line-height: 1.65;
     }
 
-    .start-btn, .replay-btn {
-      margin-top: 28px;
+    .start-btn,
+    .replay-btn {
       min-height: 54px;
+      margin-top: 28px;
       padding: 0 26px;
       border: 0;
       border-radius: 999px;
@@ -106,17 +116,13 @@
       box-shadow: 0 10px 34px rgba(185, 255, 102, 0.25);
       font-weight: 900;
       cursor: pointer;
-      transition: transform 150ms ease, box-shadow 150ms ease;
+      transition: 150ms ease;
     }
 
-    .start-btn:hover, .replay-btn:hover {
+    .start-btn:hover,
+    .replay-btn:hover {
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 14px 42px rgba(185, 255, 102, 0.34);
-    }
-
-    .start-btn:focus-visible, .replay-btn:focus-visible, .word:focus-visible {
-      outline: 3px solid var(--cyan);
-      outline-offset: 4px;
     }
 
     #game {
@@ -151,7 +157,9 @@
       white-space: nowrap;
     }
 
-    .pill strong { color: var(--text); }
+    .pill strong {
+      color: var(--text);
+    }
 
     .game-tip {
       position: fixed;
@@ -174,7 +182,9 @@
       border-radius: 20px;
       color: var(--text);
       background: rgba(24, 29, 39, 0.92);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.34), 0 0 28px rgba(185, 255, 102, 0.08);
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.34),
+        0 0 28px rgba(185, 255, 102, 0.08);
       font-weight: 900;
       cursor: pointer;
       user-select: none;
@@ -186,11 +196,8 @@
       background: var(--matcha);
     }
 
-    .word:hover { transform: rotate(-2deg) scale(1.06); }
-
-    @keyframes pop {
-      from { opacity: 0; transform: scale(0.5) rotate(8deg); }
-      to { opacity: 1; transform: scale(1); }
+    .word:hover {
+      transform: rotate(-2deg) scale(1.06);
     }
 
     #scan {
@@ -206,7 +213,11 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: repeating-linear-gradient(to bottom, rgba(255,255,255,.04) 0 1px, transparent 1px 4px);
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.04) 0 1px,
+        transparent 1px 4px
+      );
       animation: flicker 90ms infinite alternate;
     }
 
@@ -234,8 +245,13 @@
       line-height: 1.75;
     }
 
-    .warning { color: #ffd166; }
-    .danger { color: var(--hot); }
+    .warning {
+      color: #ffd166;
+    }
+
+    .danger {
+      color: var(--hot);
+    }
 
     #flood {
       position: fixed;
@@ -253,7 +269,9 @@
       font-weight: 950;
       white-space: nowrap;
       text-shadow: 2px 0 var(--cyan), -2px 0 #871cff;
-      animation: chaos-in 240ms ease-out both, chaos-shake 90ms 240ms infinite alternate;
+      animation:
+        chaos-in 240ms ease-out both,
+        chaos-shake 90ms 240ms infinite alternate;
       user-select: none;
     }
 
@@ -281,87 +299,185 @@
       font-size: 0.92rem;
     }
 
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.5) rotate(8deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
     @keyframes glitch {
-      from { transform: translate(-3px, 1px) skewX(-2deg); }
-      to { transform: translate(4px, -2px) skewX(3deg); }
+      from {
+        transform: translate(-3px, 1px) skewX(-2deg);
+      }
+
+      to {
+        transform: translate(4px, -2px) skewX(3deg);
+      }
     }
 
     @keyframes flicker {
-      from { opacity: 0.25; }
-      to { opacity: 0.62; }
+      from {
+        opacity: 0.25;
+      }
+
+      to {
+        opacity: 0.62;
+      }
     }
 
     @keyframes chaos-in {
-      from { opacity: 0; transform: scale(3) rotate(-14deg); }
-      to { opacity: 1; transform: scale(1) rotate(var(--turn)); }
+      from {
+        opacity: 0;
+        transform: scale(3) rotate(-14deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(var(--turn));
+      }
     }
 
     @keyframes chaos-shake {
-      from { translate: -3px 2px; filter: hue-rotate(0deg); }
-      to { translate: 3px -2px; filter: hue-rotate(24deg); }
+      from {
+        translate: -3px 2px;
+        filter: hue-rotate(0deg);
+      }
+
+      to {
+        translate: 3px -2px;
+        filter: hue-rotate(24deg);
+      }
     }
 
-    .shake { animation: screen-shake 80ms infinite alternate; }
+    .shake {
+      animation: screen-shake 80ms infinite alternate;
+    }
 
     @keyframes screen-shake {
-      from { transform: translate(-2px, 1px); }
-      to { transform: translate(2px, -1px); }
+      from {
+        transform: translate(-2px, 1px);
+      }
+
+      to {
+        transform: translate(2px, -1px);
+      }
     }
 
     @media (max-width: 560px) {
-      .hud { top: 10px; gap: 5px; }
-      .pill { padding: 8px 7px; }
-      .game-tip { bottom: 12px; font-size: 0.85rem; }
-      .word { min-width: 76px; min-height: 52px; padding: 10px 14px; }
+      .hud {
+        top: 10px;
+        gap: 5px;
+      }
+
+      .pill {
+        padding: 8px 7px;
+      }
+
+      .game-tip {
+        bottom: 12px;
+        font-size: 0.85rem;
+      }
+
+      .word {
+        min-width: 76px;
+        min-height: 52px;
+        padding: 10px 14px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="noise" aria-hidden="true"></div>
 
   <main>
-    <section id="intro" class="screen" aria-labelledby="intro-title">
+    <section id="intro" class="screen">
       <div class="card">
         <p class="eyebrow">inoffizieller Persönlichkeitstest</p>
-        <h1 id="intro-title">lowkey ein<br><span class="accent">vibe check</span></h1>
-        <p class="lead">Triff 12 Wörter. Nicht nachdenken. Einfach genau das anklicken, was dein Gehirn gerade fühlt. 67 % wissenschaftlich geprüft.</p>
-        <button id="start" class="start-btn" type="button">genau, starten</button>
+
+        <h1>
+          lowkey ein<br>
+          <span class="accent">vibe check</span>
+        </h1>
+
+        <p class="lead">
+          Triff 12 Wörter. Nicht nachdenken. Einfach genau das anklicken,
+          was dein Gehirn gerade fühlt. 67 % wissenschaftlich geprüft.
+        </p>
+
+        <button id="start" class="start-btn" type="button">
+          genau, starten
+        </button>
       </div>
     </section>
 
-    <section id="game" class="screen" hidden aria-label="Vibe-Check-Spiel">
-      <div class="hud" aria-live="polite">
-        <div class="pill">Treffer <strong id="hits">0/12</strong></div>
-        <div class="pill">Vibe <strong id="vibe">lowkey</strong></div>
-        <div class="pill">Analyse <strong id="progress">0%</strong></div>
+    <section id="game" class="screen" hidden>
+      <div class="hud">
+        <div class="pill">
+          Treffer <strong id="hits">0/12</strong>
+        </div>
+
+        <div class="pill">
+          Vibe <strong id="vibe">lowkey</strong>
+        </div>
+
+        <div class="pill">
+          Analyse <strong id="progress">0%</strong>
+        </div>
       </div>
-      <p class="game-tip">klick die Wörter, bevor sie wieder sad verschwinden</p>
+
+      <p class="game-tip">
+        klick die Wörter, bevor sie wieder sad verschwinden
+      </p>
     </section>
 
-    <section id="scan" class="screen" hidden aria-live="assertive">
+    <section id="scan" class="screen" hidden>
       <div class="scan-inner">
         <h2 class="scan-title">warte mal...</h2>
         <div id="terminal"></div>
       </div>
     </section>
 
-    <div id="flood" aria-hidden="true"></div>
+    <div id="flood"></div>
 
-    <section id="final" class="screen" hidden aria-labelledby="final-title">
+    <section id="final" class="screen" hidden>
       <div class="card final-card">
         <p class="eyebrow">entspann dich 😭</p>
-        <h2 id="final-title">war nur ein<br><span class="accent">Prank</span></h2>
-        <p class="lead">Nichts wurde gehackt, nichts gespeichert. Dein Ergebnis ist einfach: <strong>67 % Matcha, 33 % Çiğköfte und 100 % „keine Ahnung“.</strong></p>
-        <button id="replay" class="replay-btn" type="button">nochmal, genau</button>
-        <p class="tiny">02.10.2005 bleibt trotzdem ein verdächtig ikonisches Datum.</p>
+
+        <h2>
+          war nur ein<br>
+          <span class="accent">Prank</span>
+        </h2>
+
+        <p class="lead">
+          Nichts wurde gehackt, nichts gespeichert. Dein Ergebnis ist:
+          <strong>
+            67 % Matcha, 33 % Çiğköfte und 100 % „keine Ahnung“.
+          </strong>
+        </p>
+
+        <button id="replay" class="replay-btn" type="button">
+          nochmal, genau
+        </button>
+
+        <p class="tiny">
+          02.10.2005 bleibt trotzdem ein verdächtig ikonisches Datum.
+        </p>
       </div>
     </section>
   </main>
@@ -372,28 +488,54 @@
     const scan = document.querySelector("#scan");
     const flood = document.querySelector("#flood");
     const finalScreen = document.querySelector("#final");
+
     const startButton = document.querySelector("#start");
     const replayButton = document.querySelector("#replay");
+
     const hitsText = document.querySelector("#hits");
     const vibeText = document.querySelector("#vibe");
     const progressText = document.querySelector("#progress");
     const terminal = document.querySelector("#terminal");
 
     const words = [
-      "sad", "lowkey", "genau", "67", "Matcha", "Çiğköfte",
-      "keine Ahnung", "genau 😭", "lowkey sad", "67???", "Matcha > alles"
+      "sad",
+      "lowkey",
+      "genau",
+      "67",
+      "Matcha",
+      "Çiğköfte",
+      "keine Ahnung",
+      "genau 😭",
+      "lowkey sad",
+      "67???",
+      "Matcha > alles"
     ];
-    const vibes = ["lowkey", "sad", "genau", "Matcha-Modus", "67-core", "keine Ahnung"];
+
+    const vibes = [
+      "lowkey",
+      "sad",
+      "genau",
+      "Matcha-Modus",
+      "67-core",
+      "keine Ahnung"
+    ];
+
     const requiredHits = 12;
+
     let hits = 0;
     let target = null;
     let targetTimer = null;
     let running = false;
 
+    function randomBetween(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     function safeArea() {
       const margin = 18;
       const top = 90;
       const bottom = 92;
+
       return {
         minX: margin,
         maxX: Math.max(margin, window.innerWidth - 190),
@@ -402,40 +544,69 @@
       };
     }
 
-    function randomBetween(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
     function removeTarget() {
       clearTimeout(targetTimer);
-      if (target) target.remove();
+
+      if (target) {
+        target.remove();
+      }
+
       target = null;
     }
 
     function spawnTarget() {
       if (!running) return;
+
       removeTarget();
 
       const area = safeArea();
       const button = document.createElement("button");
       const text = words[Math.floor(Math.random() * words.length)];
-      button.type = "button";
-      button.className = "word" + (text.includes("Matcha") || text === "67" ? " special" : "");
-      button.textContent = text;
-      button.style.left = randomBetween(area.minX, area.maxX) + "px";
-      button.style.top = randomBetween(area.minY, area.maxY) + "px";
-      button.style.rotate = randomBetween(-8, 8) + "deg";
-      button.setAttribute("aria-label", text + " treffen");
 
-      button.addEventListener("click", (event) => {
+      button.type = "button";
+      button.className =
+        "word" +
+        (text.includes("Matcha") || text === "67" ? " special" : "");
+
+      button.textContent = text;
+
+      button.style.left =
+        randomBetween(area.minX, area.maxX) + "px";
+
+      button.style.top =
+        randomBetween(area.minY, area.maxY) + "px";
+
+      button.style.rotate =
+        randomBetween(-8, 8) + "deg";
+
+      button.addEventListener("click", function (event) {
         event.stopPropagation();
-        hits += 1;
-        hitsText.textContent = `${hits}/${requiredHits}`;
-        progressText.textContent = Math.min(99, Math.round((hits / requiredHits) * 67)) + "%";
-        vibeText.textContent = vibes[Math.min(vibes.length - 1, Math.floor(hits / 2))];
+
+        hits++;
+
+        hitsText.textContent =
+          `${hits}/${requiredHits}`;
+
+        progressText.textContent =
+          Math.min(99, Math.round((hits / requiredHits) * 67)) + "%";
+
+        vibeText.textContent =
+          vibes[Math.min(vibes.length - 1, Math.floor(hits / 2))];
+
         button.animate(
-          [{ transform: "scale(1)" }, { transform: "scale(.68) rotate(8deg)", opacity: .4 }],
-          { duration: 150, easing: "ease-out" }
+          [
+            {
+              transform: "scale(1)"
+            },
+            {
+              transform: "scale(.68) rotate(8deg)",
+              opacity: 0.4
+            }
+          ],
+          {
+            duration: 150,
+            easing: "ease-out"
+          }
         );
 
         if (hits >= requiredHits) {
@@ -449,23 +620,32 @@
 
       game.appendChild(button);
       target = button;
-      targetTimer = setTimeout(spawnTarget, Math.max(650, 1250 - hits * 38));
+
+      targetTimer = setTimeout(
+        spawnTarget,
+        Math.max(650, 1250 - hits * 38)
+      );
     }
 
     function startGame() {
       hits = 0;
       running = true;
+
       hitsText.textContent = `0/${requiredHits}`;
       vibeText.textContent = "lowkey";
       progressText.textContent = "0%";
+
       terminal.innerHTML = "";
       flood.innerHTML = "";
       flood.style.display = "none";
+
       document.body.classList.remove("shake");
+
       intro.hidden = true;
       finalScreen.hidden = true;
       scan.hidden = true;
       game.hidden = false;
+
       spawnTarget();
     }
 
@@ -478,6 +658,7 @@
     function beginScan() {
       game.hidden = true;
       scan.hidden = false;
+
       const lines = [
         "> vibe_check.exe gestartet...",
         "> Lieblingswörter erkannt: <span class='warning'>sad / lowkey / genau</span>",
@@ -490,9 +671,11 @@
       ];
 
       let index = 0;
-      const timer = setInterval(() => {
+
+      const timer = setInterval(function () {
         addTerminalLine(lines[index]);
-        index += 1;
+        index++;
+
         if (index === lines.length) {
           clearInterval(timer);
           setTimeout(startFlood, 650);
@@ -503,21 +686,45 @@
     function startFlood() {
       scan.hidden = true;
       flood.style.display = "block";
+
       document.body.classList.add("shake");
-      const total = window.innerWidth < 600 ? 42 : 78;
+
+      const total =
+        window.innerWidth < 600 ? 42 : 78;
+
       let made = 0;
 
-      const interval = setInterval(() => {
+      const interval = setInterval(function () {
         const word = document.createElement("span");
+
         word.className = "chaos-word";
         word.textContent = "KEINE AHNUNG";
-        word.style.left = randomBetween(-40, Math.max(-40, window.innerWidth - 130)) + "px";
-        word.style.top = randomBetween(-20, Math.max(-20, window.innerHeight - 50)) + "px";
-        word.style.fontSize = randomBetween(18, 58) + "px";
-        word.style.opacity = (Math.random() * 0.45 + 0.55).toFixed(2);
-        word.style.setProperty("--turn", randomBetween(-18, 18) + "deg");
+
+        word.style.left =
+          randomBetween(
+            -40,
+            Math.max(-40, window.innerWidth - 130)
+          ) + "px";
+
+        word.style.top =
+          randomBetween(
+            -20,
+            Math.max(-20, window.innerHeight - 50)
+          ) + "px";
+
+        word.style.fontSize =
+          randomBetween(18, 58) + "px";
+
+        word.style.opacity =
+          (Math.random() * 0.45 + 0.55).toFixed(2);
+
+        word.style.setProperty(
+          "--turn",
+          randomBetween(-18, 18) + "deg"
+        );
+
         flood.appendChild(word);
-        made += 1;
+        made++;
 
         if (made >= total) {
           clearInterval(interval);
@@ -535,9 +742,12 @@
     startButton.addEventListener("click", startGame);
     replayButton.addEventListener("click", startGame);
 
-    window.addEventListener("resize", () => {
-      if (running) spawnTarget();
+    window.addEventListener("resize", function () {
+      if (running) {
+        spawnTarget();
+      }
     });
   </script>
 </body>
 </html>
+```
