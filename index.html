@@ -3,54 +3,43 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0d12">
-  <title>lowkey ein kleiner vibe check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lowkey Vibe Check</title>
 
   <style>
     :root {
-      --bg: #0b0d12;
-      --panel: rgba(20, 24, 33, 0.82);
-      --line: rgba(255, 255, 255, 0.11);
+      --bg: #090b10;
+      --panel: rgba(20, 24, 33, 0.88);
       --text: #f5f7fb;
       --muted: #a9b0bd;
-      --matcha: #b9ff66;
-      --hot: #ff4d6d;
-      --cyan: #4deeea;
+      --green: #b9ff66;
+      --red: #ff4161;
+      --cyan: #42f5ef;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html,
-    body {
-      min-height: 100%;
+    [hidden] {
+      display: none !important;
     }
 
     body {
       margin: 0;
+      min-height: 100vh;
       min-height: 100svh;
       overflow: hidden;
       color: var(--text);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 12% 12%, rgba(185, 255, 102, 0.15), transparent 30%),
-        radial-gradient(circle at 88% 20%, rgba(255, 77, 109, 0.13), transparent 28%),
-        linear-gradient(145deg, #080a0f, #111621 70%, #090b10);
+        radial-gradient(circle at 15% 10%, rgba(185, 255, 102, 0.15), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(255, 65, 97, 0.15), transparent 30%),
+        linear-gradient(145deg, #07090d, #121722);
     }
 
     button {
       font: inherit;
-    }
-
-    .noise {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      opacity: 0.035;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
     }
 
     .screen {
@@ -61,196 +50,186 @@
       padding: 22px;
     }
 
-    .screen[hidden] {
-      display: none;
-    }
-
     .card {
-      width: min(720px, 100%);
-      padding: clamp(26px, 5vw, 52px);
-      border: 1px solid var(--line);
+      width: min(700px, 100%);
+      padding: clamp(28px, 6vw, 55px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 28px;
       background: var(--panel);
-      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(18px);
       text-align: center;
     }
 
-    .eyebrow {
-      margin: 0 0 12px;
-      color: var(--matcha);
-      font-size: 0.82rem;
-      font-weight: 850;
-      letter-spacing: 0.18em;
+    .small-title {
+      margin: 0 0 14px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 3px;
       text-transform: uppercase;
     }
 
-    h1 {
+    h1,
+    h2 {
       margin: 0;
-      font-size: clamp(2.65rem, 10vw, 6.4rem);
-      line-height: 0.93;
-      letter-spacing: -0.07em;
+      font-size: clamp(45px, 10vw, 95px);
+      line-height: 0.95;
+      letter-spacing: -5px;
     }
 
-    .accent {
-      color: var(--hot);
+    .red {
+      color: var(--red);
     }
 
-    .lead {
-      max-width: 520px;
-      margin: 22px auto 0;
+    .description {
+      max-width: 540px;
+      margin: 24px auto 0;
       color: var(--muted);
-      font-size: clamp(1rem, 2.3vw, 1.2rem);
-      line-height: 1.65;
+      font-size: clamp(16px, 3vw, 20px);
+      line-height: 1.6;
     }
 
-    .start-btn,
-    .replay-btn {
-      min-height: 54px;
+    .main-button {
+      min-height: 56px;
       margin-top: 28px;
-      padding: 0 26px;
+      padding: 0 30px;
       border: 0;
       border-radius: 999px;
       color: #0b0d12;
-      background: var(--matcha);
-      box-shadow: 0 10px 34px rgba(185, 255, 102, 0.25);
+      background: var(--green);
+      box-shadow: 0 12px 36px rgba(185, 255, 102, 0.25);
       font-weight: 900;
       cursor: pointer;
-      transition: 150ms ease;
+      transition: 0.15s ease;
     }
 
-    .start-btn:hover,
-    .replay-btn:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 14px 42px rgba(185, 255, 102, 0.34);
+    .main-button:hover {
+      transform: translateY(-3px) scale(1.03);
+    }
+
+    .main-button:active {
+      transform: scale(0.96);
     }
 
     #game {
-      display: block;
       cursor: crosshair;
     }
 
     .hud {
       position: fixed;
-      top: 16px;
+      top: 14px;
       left: 50%;
       z-index: 5;
       display: flex;
-      width: min(760px, calc(100% - 24px));
-      justify-content: space-between;
-      gap: 10px;
+      width: min(760px, calc(100% - 20px));
+      gap: 8px;
       transform: translateX(-50%);
       pointer-events: none;
     }
 
-    .pill {
+    .hud-box {
       flex: 1;
-      min-width: 0;
-      padding: 10px 14px;
-      border: 1px solid var(--line);
+      padding: 11px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
       color: var(--muted);
-      background: rgba(10, 12, 18, 0.76);
-      backdrop-filter: blur(12px);
+      background: rgba(8, 10, 15, 0.82);
       text-align: center;
-      font-size: clamp(0.76rem, 2vw, 0.95rem);
+      font-size: clamp(12px, 2.5vw, 16px);
       white-space: nowrap;
     }
 
-    .pill strong {
-      color: var(--text);
+    .hud-box strong {
+      color: white;
     }
 
-    .game-tip {
+    .tip {
       position: fixed;
-      bottom: 20px;
+      bottom: 18px;
       left: 50%;
+      width: 100%;
       margin: 0;
+      padding: 0 15px;
       transform: translateX(-50%);
       color: var(--muted);
       text-align: center;
-      white-space: nowrap;
     }
 
-    .word {
+    .target {
       position: absolute;
-      z-index: 2;
+      z-index: 3;
       min-width: 90px;
       min-height: 58px;
       padding: 12px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.17);
       border-radius: 20px;
-      color: var(--text);
-      background: rgba(24, 29, 39, 0.92);
+      color: white;
+      background: rgba(25, 30, 41, 0.95);
       box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.34),
-        0 0 28px rgba(185, 255, 102, 0.08);
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(185, 255, 102, 0.12);
       font-weight: 900;
       cursor: pointer;
       user-select: none;
-      animation: pop 180ms cubic-bezier(.2, .85, .25, 1.25);
+      animation: target-in 0.18s ease-out;
     }
 
-    .word.special {
-      color: #142006;
-      background: var(--matcha);
+    .target.special {
+      color: #172306;
+      background: var(--green);
     }
 
-    .word:hover {
-      transform: rotate(-2deg) scale(1.06);
+    .target:hover {
+      transform: scale(1.08) rotate(-2deg);
     }
 
-    #scan {
+    #scanner {
       z-index: 20;
-      place-items: stretch;
-      padding: 0;
-      background: #020404;
-      font-family: Consolas, "Courier New", monospace;
+      color: #62ff91;
+      background: #010303;
+      font-family: Consolas, monospace;
     }
 
-    #scan::after {
+    #scanner::after {
       content: "";
       position: absolute;
       inset: 0;
       pointer-events: none;
       background: repeating-linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.04) 0 1px,
-        transparent 1px 4px
+        rgba(255, 255, 255, 0.04) 0 2px,
+        transparent 2px 5px
       );
-      animation: flicker 90ms infinite alternate;
+      animation: flicker 0.08s infinite alternate;
     }
 
-    .scan-inner {
+    .scanner-content {
       position: relative;
-      z-index: 1;
-      width: min(880px, calc(100% - 32px));
-      margin: auto;
+      z-index: 2;
+      width: min(850px, 100%);
     }
 
-    .scan-title {
-      margin: 0 0 22px;
-      color: var(--hot);
-      font-size: clamp(2rem, 8vw, 5.5rem);
-      line-height: 0.95;
-      text-transform: uppercase;
-      text-shadow: 3px 0 var(--cyan), -3px 0 #6b19ff;
-      animation: glitch 80ms infinite alternate;
+    .scanner-title {
+      margin-bottom: 30px;
+      color: var(--red);
+      font-size: clamp(42px, 10vw, 100px);
+      text-shadow: 4px 0 var(--cyan), -4px 0 #7726ff;
+      animation: glitch 0.08s infinite alternate;
     }
 
     #terminal {
-      min-height: 260px;
-      color: #72ff9c;
-      font-size: clamp(0.88rem, 2.6vw, 1.12rem);
+      min-height: 280px;
+      font-size: clamp(14px, 3vw, 20px);
       line-height: 1.75;
     }
 
-    .warning {
+    .yellow {
       color: #ffd166;
     }
 
     .danger {
-      color: var(--hot);
+      color: var(--red);
     }
 
     #flood {
@@ -259,50 +238,47 @@
       z-index: 40;
       display: none;
       overflow: hidden;
-      background: #030305;
+      background: #020204;
     }
 
-    .chaos-word {
+    .chaos {
       position: absolute;
-      color: var(--hot);
-      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
-      font-weight: 950;
+      color: var(--red);
+      font-family: Impact, "Arial Black", sans-serif;
+      font-weight: 900;
       white-space: nowrap;
-      text-shadow: 2px 0 var(--cyan), -2px 0 #871cff;
+      text-shadow: 3px 0 var(--cyan), -3px 0 #7c1cff;
       animation:
-        chaos-in 240ms ease-out both,
-        chaos-shake 90ms 240ms infinite alternate;
+        chaos-in 0.2s ease-out,
+        chaos-shake 0.08s 0.2s infinite alternate;
       user-select: none;
     }
 
-    #final {
+    #finalScreen {
       z-index: 60;
-      background: rgba(3, 4, 7, 0.86);
-      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(14px);
     }
 
     .final-card {
+      border-color: rgba(185, 255, 102, 0.4);
       transform: rotate(-1deg);
-      border-color: rgba(185, 255, 102, 0.38);
     }
 
-    .final-card h2 {
-      margin: 0;
-      font-size: clamp(2.4rem, 9vw, 6rem);
-      line-height: 0.95;
-      letter-spacing: -0.055em;
-    }
-
-    .tiny {
+    .birthday {
       margin-top: 18px;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 14px;
     }
 
-    @keyframes pop {
+    .shake {
+      animation: page-shake 0.07s infinite alternate;
+    }
+
+    @keyframes target-in {
       from {
         opacity: 0;
-        transform: scale(0.5) rotate(8deg);
+        transform: scale(0.4) rotate(12deg);
       }
 
       to {
@@ -313,7 +289,7 @@
 
     @keyframes glitch {
       from {
-        transform: translate(-3px, 1px) skewX(-2deg);
+        transform: translate(-4px, 2px) skewX(-3deg);
       }
 
       to {
@@ -327,39 +303,33 @@
       }
 
       to {
-        opacity: 0.62;
+        opacity: 0.6;
       }
     }
 
     @keyframes chaos-in {
       from {
         opacity: 0;
-        transform: scale(3) rotate(-14deg);
+        transform: scale(3) rotate(-15deg);
       }
 
       to {
         opacity: 1;
-        transform: scale(1) rotate(var(--turn));
+        transform: scale(1) rotate(var(--rotation));
       }
     }
 
     @keyframes chaos-shake {
       from {
         translate: -3px 2px;
-        filter: hue-rotate(0deg);
       }
 
       to {
         translate: 3px -2px;
-        filter: hue-rotate(24deg);
       }
     }
 
-    .shake {
-      animation: screen-shake 80ms infinite alternate;
-    }
-
-    @keyframes screen-shake {
+    @keyframes page-shake {
       from {
         transform: translate(-2px, 1px);
       }
@@ -370,57 +340,45 @@
     }
 
     @media (max-width: 560px) {
+      h1,
+      h2 {
+        letter-spacing: -3px;
+      }
+
       .hud {
-        top: 10px;
-        gap: 5px;
+        gap: 4px;
       }
 
-      .pill {
-        padding: 8px 7px;
+      .hud-box {
+        padding: 9px 5px;
       }
 
-      .game-tip {
-        bottom: 12px;
-        font-size: 0.85rem;
-      }
-
-      .word {
+      .target {
         min-width: 76px;
         min-height: 52px;
         padding: 10px 14px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.001ms !important;
-        animation-iteration-count: 1 !important;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="noise" aria-hidden="true"></div>
-
   <main>
     <section id="intro" class="screen">
       <div class="card">
-        <p class="eyebrow">inoffizieller Persönlichkeitstest</p>
+        <p class="small-title">inoffizieller Persönlichkeitstest</p>
 
         <h1>
           lowkey ein<br>
-          <span class="accent">vibe check</span>
+          <span class="red">vibe check</span>
         </h1>
 
-        <p class="lead">
+        <p class="description">
           Triff 12 Wörter. Nicht nachdenken. Einfach genau das anklicken,
           was dein Gehirn gerade fühlt. 67 % wissenschaftlich geprüft.
         </p>
 
-        <button id="start" class="start-btn" type="button">
+        <button id="startButton" class="main-button" type="button">
           genau, starten
         </button>
       </div>
@@ -428,74 +386,75 @@
 
     <section id="game" class="screen" hidden>
       <div class="hud">
-        <div class="pill">
-          Treffer <strong id="hits">0/12</strong>
+        <div class="hud-box">
+          Treffer: <strong id="hitsText">0/12</strong>
         </div>
 
-        <div class="pill">
-          Vibe <strong id="vibe">lowkey</strong>
+        <div class="hud-box">
+          Vibe: <strong id="vibeText">lowkey</strong>
         </div>
 
-        <div class="pill">
-          Analyse <strong id="progress">0%</strong>
+        <div class="hud-box">
+          Analyse: <strong id="progressText">0%</strong>
         </div>
       </div>
 
-      <p class="game-tip">
-        klick die Wörter, bevor sie wieder sad verschwinden
+      <p class="tip">
+        Klick die Wörter, bevor sie wieder sad verschwinden.
       </p>
     </section>
 
-    <section id="scan" class="screen" hidden>
-      <div class="scan-inner">
-        <h2 class="scan-title">warte mal...</h2>
+    <section id="scanner" class="screen" hidden>
+      <div class="scanner-content">
+        <h2 class="scanner-title">warte mal...</h2>
         <div id="terminal"></div>
       </div>
     </section>
 
     <div id="flood"></div>
 
-    <section id="final" class="screen" hidden>
+    <section id="finalScreen" class="screen" hidden>
       <div class="card final-card">
-        <p class="eyebrow">entspann dich 😭</p>
+        <p class="small-title">entspann dich 😭</p>
 
         <h2>
           war nur ein<br>
-          <span class="accent">Prank</span>
+          <span class="red">Prank</span>
         </h2>
 
-        <p class="lead">
-          Nichts wurde gehackt, nichts gespeichert. Dein Ergebnis ist:
+        <p class="description">
+          Nichts wurde gehackt und nichts gespeichert.
+          Dein Ergebnis ist:
           <strong>
             67 % Matcha, 33 % Çiğköfte und 100 % „keine Ahnung“.
           </strong>
         </p>
 
-        <button id="replay" class="replay-btn" type="button">
+        <button id="replayButton" class="main-button" type="button">
           nochmal, genau
         </button>
 
-        <p class="tiny">
-          02.10.2005 bleibt trotzdem ein verdächtig ikonisches Datum.
+        <p class="birthday">
+          02.10.2005 bleibt trotzdem verdächtig ikonisch.
         </p>
       </div>
     </section>
   </main>
 
   <script>
-    const intro = document.querySelector("#intro");
-    const game = document.querySelector("#game");
-    const scan = document.querySelector("#scan");
-    const flood = document.querySelector("#flood");
-    const finalScreen = document.querySelector("#final");
+    const intro = document.getElementById("intro");
+    const game = document.getElementById("game");
+    const scanner = document.getElementById("scanner");
+    const flood = document.getElementById("flood");
+    const finalScreen = document.getElementById("finalScreen");
 
-    const startButton = document.querySelector("#start");
-    const replayButton = document.querySelector("#replay");
+    const startButton = document.getElementById("startButton");
+    const replayButton = document.getElementById("replayButton");
 
-    const hitsText = document.querySelector("#hits");
-    const vibeText = document.querySelector("#vibe");
-    const progressText = document.querySelector("#progress");
-    const terminal = document.querySelector("#terminal");
+    const hitsText = document.getElementById("hitsText");
+    const vibeText = document.getElementById("vibeText");
+    const progressText = document.getElementById("progressText");
+    const terminal = document.getElementById("terminal");
 
     const words = [
       "sad",
@@ -508,7 +467,8 @@
       "genau 😭",
       "lowkey sad",
       "67???",
-      "Matcha > alles"
+      "Matcha > alles",
+      "sad aber genau"
     ];
 
     const vibes = [
@@ -523,115 +483,95 @@
     const requiredHits = 12;
 
     let hits = 0;
-    let target = null;
+    let activeTarget = null;
     let targetTimer = null;
-    let running = false;
+    let gameRunning = false;
 
-    function randomBetween(min, max) {
+    function randomNumber(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function safeArea() {
-      const margin = 18;
-      const top = 90;
-      const bottom = 92;
-
-      return {
-        minX: margin,
-        maxX: Math.max(margin, window.innerWidth - 190),
-        minY: top,
-        maxY: Math.max(top, window.innerHeight - bottom)
-      };
     }
 
     function removeTarget() {
       clearTimeout(targetTimer);
 
-      if (target) {
-        target.remove();
+      if (activeTarget) {
+        activeTarget.remove();
       }
 
-      target = null;
+      activeTarget = null;
     }
 
-    function spawnTarget() {
-      if (!running) return;
+    function createTarget() {
+      if (!gameRunning) {
+        return;
+      }
 
       removeTarget();
 
-      const area = safeArea();
-      const button = document.createElement("button");
-      const text = words[Math.floor(Math.random() * words.length)];
+      const target = document.createElement("button");
+      const word = words[randomNumber(0, words.length - 1)];
 
-      button.type = "button";
-      button.className =
-        "word" +
-        (text.includes("Matcha") || text === "67" ? " special" : "");
+      target.type = "button";
+      target.className = "target";
+      target.textContent = word;
 
-      button.textContent = text;
+      if (word.includes("Matcha") || word.includes("67")) {
+        target.classList.add("special");
+      }
 
-      button.style.left =
-        randomBetween(area.minX, area.maxX) + "px";
+      const maxX = Math.max(15, window.innerWidth - 190);
+      const maxY = Math.max(100, window.innerHeight - 100);
 
-      button.style.top =
-        randomBetween(area.minY, area.maxY) + "px";
+      target.style.left = randomNumber(15, maxX) + "px";
+      target.style.top = randomNumber(90, maxY) + "px";
+      target.style.rotate = randomNumber(-8, 8) + "deg";
 
-      button.style.rotate =
-        randomBetween(-8, 8) + "deg";
-
-      button.addEventListener("click", function (event) {
+      target.addEventListener("click", function (event) {
         event.stopPropagation();
 
         hits++;
 
-        hitsText.textContent =
-          `${hits}/${requiredHits}`;
+        hitsText.textContent = hits + "/" + requiredHits;
 
         progressText.textContent =
-          Math.min(99, Math.round((hits / requiredHits) * 67)) + "%";
+          Math.min(
+            99,
+            Math.round((hits / requiredHits) * 67)
+          ) + "%";
 
         vibeText.textContent =
-          vibes[Math.min(vibes.length - 1, Math.floor(hits / 2))];
-
-        button.animate(
-          [
-            {
-              transform: "scale(1)"
-            },
-            {
-              transform: "scale(.68) rotate(8deg)",
-              opacity: 0.4
-            }
-          ],
-          {
-            duration: 150,
-            easing: "ease-out"
-          }
-        );
+          vibes[
+            Math.min(
+              vibes.length - 1,
+              Math.floor(hits / 2)
+            )
+          ];
 
         if (hits >= requiredHits) {
-          running = false;
+          gameRunning = false;
           removeTarget();
-          setTimeout(beginScan, 250);
+
+          setTimeout(startScanner, 250);
         } else {
-          setTimeout(spawnTarget, 130);
+          removeTarget();
+          setTimeout(createTarget, 130);
         }
       });
 
-      game.appendChild(button);
-      target = button;
+      game.appendChild(target);
+      activeTarget = target;
 
       targetTimer = setTimeout(
-        spawnTarget,
-        Math.max(650, 1250 - hits * 38)
+        createTarget,
+        Math.max(650, 1250 - hits * 40)
       );
     }
 
     function startGame() {
       hits = 0;
-      running = true;
+      gameRunning = true;
 
-      hitsText.textContent = `0/${requiredHits}`;
+      hitsText.textContent = "0/" + requiredHits;
       vibeText.textContent = "lowkey";
       progressText.textContent = "0%";
 
@@ -642,98 +582,101 @@
       document.body.classList.remove("shake");
 
       intro.hidden = true;
+      scanner.hidden = true;
       finalScreen.hidden = true;
-      scan.hidden = true;
       game.hidden = false;
 
-      spawnTarget();
+      createTarget();
     }
 
-    function addTerminalLine(html) {
+    function addTerminalLine(text) {
       const line = document.createElement("div");
-      line.innerHTML = html;
+      line.innerHTML = text;
       terminal.appendChild(line);
     }
 
-    function beginScan() {
+    function startScanner() {
       game.hidden = true;
-      scan.hidden = false;
+      scanner.hidden = false;
 
       const lines = [
         "> vibe_check.exe gestartet...",
-        "> Lieblingswörter erkannt: <span class='warning'>sad / lowkey / genau</span>",
-        "> mysteriöse Zahl gefunden: <span class='warning'>67</span>",
-        "> Matcha-Level: <span class='warning'>KRITISCH HOCH</span>",
-        "> Çiğköfte-Abhängigkeit: <span class='warning'>bestätigt</span>",
-        "> Geburtstag wird abgeglichen: <span class='warning'>02.10.2005</span>",
-        "> letzte Antwort wird geladen...",
+        "> Sprachmuster erkannt: <span class='yellow'>sad / lowkey / genau</span>",
+        "> mysteriöse Zahl gefunden: <span class='yellow'>67</span>",
+        "> Matcha-Level: <span class='yellow'>KRITISCH HOCH</span>",
+        "> Çiğköfte-Abhängigkeit: <span class='yellow'>bestätigt</span>",
+        "> Geburtstag erkannt: <span class='yellow'>02.10.2005</span>",
+        "> Standardantwort wird geladen...",
+        "> Antwort gefunden: <span class='danger'>KEINE AHNUNG</span>",
         "> FEHLER 67: <span class='danger'>ANTWORT AUSSER KONTROLLE</span>"
       ];
 
-      let index = 0;
+      let lineIndex = 0;
 
-      const timer = setInterval(function () {
-        addTerminalLine(lines[index]);
-        index++;
+      const terminalTimer = setInterval(function () {
+        addTerminalLine(lines[lineIndex]);
+        lineIndex++;
 
-        if (index === lines.length) {
-          clearInterval(timer);
-          setTimeout(startFlood, 650);
+        if (lineIndex >= lines.length) {
+          clearInterval(terminalTimer);
+
+          setTimeout(startFlood, 700);
         }
       }, 420);
     }
 
     function startFlood() {
-      scan.hidden = true;
+      scanner.hidden = true;
       flood.style.display = "block";
 
       document.body.classList.add("shake");
 
-      const total =
-        window.innerWidth < 600 ? 42 : 78;
+      const amount =
+        window.innerWidth < 600 ? 48 : 90;
 
-      let made = 0;
+      let created = 0;
 
-      const interval = setInterval(function () {
-        const word = document.createElement("span");
+      const floodTimer = setInterval(function () {
+        const text = document.createElement("span");
 
-        word.className = "chaos-word";
-        word.textContent = "KEINE AHNUNG";
+        text.className = "chaos";
+        text.textContent = "KEINE AHNUNG";
 
-        word.style.left =
-          randomBetween(
-            -40,
-            Math.max(-40, window.innerWidth - 130)
+        text.style.left =
+          randomNumber(
+            -50,
+            Math.max(-50, window.innerWidth - 150)
           ) + "px";
 
-        word.style.top =
-          randomBetween(
+        text.style.top =
+          randomNumber(
             -20,
-            Math.max(-20, window.innerHeight - 50)
+            Math.max(-20, window.innerHeight - 55)
           ) + "px";
 
-        word.style.fontSize =
-          randomBetween(18, 58) + "px";
+        text.style.fontSize =
+          randomNumber(18, 65) + "px";
 
-        word.style.opacity =
+        text.style.opacity =
           (Math.random() * 0.45 + 0.55).toFixed(2);
 
-        word.style.setProperty(
-          "--turn",
-          randomBetween(-18, 18) + "deg"
+        text.style.setProperty(
+          "--rotation",
+          randomNumber(-20, 20) + "deg"
         );
 
-        flood.appendChild(word);
-        made++;
+        flood.appendChild(text);
+        created++;
 
-        if (made >= total) {
-          clearInterval(interval);
-          setTimeout(showReveal, 1900);
+        if (created >= amount) {
+          clearInterval(floodTimer);
+
+          setTimeout(showFinalScreen, 2000);
         }
-      }, 42);
+      }, 38);
     }
 
-    function showReveal() {
+    function showFinalScreen() {
       document.body.classList.remove("shake");
       flood.style.display = "none";
       finalScreen.hidden = false;
@@ -743,8 +686,8 @@
     replayButton.addEventListener("click", startGame);
 
     window.addEventListener("resize", function () {
-      if (running) {
-        spawnTarget();
+      if (gameRunning) {
+        createTarget();
       }
     });
   </script>
